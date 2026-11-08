@@ -5,6 +5,8 @@ estrelas, conquistas, certificado, PWA offline) com a identidade do jogo «VanBe
 
 ## Novidades desta versão
 
+- **Estética nova (tema claro):** fundo creme com pontinhos, cartões brancos com contorno marinho grosso e sombra dura, botões amarelos para a ação principal, letra Nunito. Modal inicial com a mascote VanBerto's e «Olá! Como te chamas?». Os fundos dos mundos mantêm as cores originais das imagens.
+
 - **Blocos para dar cabeçadas (tipo Super Mário)** — `game/blocks.js`:
   - **Bloco «?»** (dourado): salta por baixo e bate com a cabeça. Dá 💎 (cristal) +10 pontos ou, às vezes, um item (🛡️ escudo,
     🦅 duplo salto, ❤️ vida). Fica cinzento depois de usado.

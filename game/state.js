@@ -7,8 +7,8 @@
  * Estado partilhado: LÊ-SE diretamente (import); para ALTERAR usa as funções set_<nome>() — os imports ES são só de leitura.
  *************************************************/
 
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is7";
-import { QUIZ_BY_THEME, QUIZ_BY_THEME_AVANCADO } from "../data-quiz.js?v=20261108is7";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is9";
+import { QUIZ_BY_THEME, QUIZ_BY_THEME_AVANCADO } from "../data-quiz.js?v=20261108is9";
 
 export let playerName = "";
 

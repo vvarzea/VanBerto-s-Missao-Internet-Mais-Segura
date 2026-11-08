@@ -7,24 +7,24 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { collectedArtefacts, showArtefactGallery } from "./artefacts.js?v=20261108is7";
-import { startBossFight } from "./boss-core.js?v=20261108is7";
-import { bonusStars, btnCloseQuiz, quizOverlay } from "./dom.js?v=20261108is7";
-import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261108is7";
-import { loadLevel } from "./level.js?v=20261108is7";
-import { celebrateWorldComplete, enterLevelWithStory, isLastLevelOfRegion, regionForLevel, renderMap, renderWorldMap } from "./map.js?v=20261108is7";
-import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261108is7";
-import { quizStats, showHistory, wireReviewButton } from "./quiz.js?v=20261108is7";
-import { openAchievementsScreen } from "./screens.js?v=20261108is7";
-import { _doorWatchdogTimer, _landingCheckTimer, _reviewReturnOverlay, currentLevel, door, livesLostThisLevel, pausedByTeacher, player, playerName, powerHaloGfx, sceneRef, score, scoreText, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__reviewReturnOverlay, set__winOverlaySubOpen, set_awaitingQuiz, set_awaitingStory, set_livesLostThisLevel, set_score, shadowGfx, touch } from "./state.js?v=20261108is7";
-import { adventureScore, globalStats, medalTextWin, medalTier } from "./stats.js?v=20261108is7";
-import { btnWinRestart } from "./ui.js?v=20261108is7";
-import { starsForLevel, totalStarsEarned, levelStars } from "../stars.js?v=20261108is7";
-import { LEVELS } from "../data-levels.js?v=20261108is7";
-import { BOSS_BY_LEVEL } from "../data-bosses.js?v=20261108is7";
-import { ensureAudio, SFX } from "../audio.js?v=20261108is7";
-import { hideDoorGlow } from "../background.js?v=20261108is7";
-import { ARTEFACTS } from "../data-progression.js?v=20261108is7";
+import { collectedArtefacts, showArtefactGallery } from "./artefacts.js?v=20261108is9";
+import { startBossFight } from "./boss-core.js?v=20261108is9";
+import { bonusStars, btnCloseQuiz, quizOverlay } from "./dom.js?v=20261108is9";
+import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261108is9";
+import { loadLevel } from "./level.js?v=20261108is9";
+import { celebrateWorldComplete, enterLevelWithStory, isLastLevelOfRegion, regionForLevel, renderMap, renderWorldMap } from "./map.js?v=20261108is9";
+import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261108is9";
+import { quizStats, showHistory, wireReviewButton } from "./quiz.js?v=20261108is9";
+import { openAchievementsScreen } from "./screens.js?v=20261108is9";
+import { _doorWatchdogTimer, _landingCheckTimer, _reviewReturnOverlay, currentLevel, door, livesLostThisLevel, pausedByTeacher, player, playerName, powerHaloGfx, sceneRef, score, scoreText, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__reviewReturnOverlay, set__winOverlaySubOpen, set_awaitingQuiz, set_awaitingStory, set_livesLostThisLevel, set_score, shadowGfx, touch } from "./state.js?v=20261108is9";
+import { adventureScore, globalStats, medalTextWin, medalTier } from "./stats.js?v=20261108is9";
+import { btnWinRestart } from "./ui.js?v=20261108is9";
+import { starsForLevel, totalStarsEarned, levelStars } from "../stars.js?v=20261108is9";
+import { LEVELS } from "../data-levels.js?v=20261108is9";
+import { BOSS_BY_LEVEL } from "../data-bosses.js?v=20261108is9";
+import { ensureAudio, SFX } from "../audio.js?v=20261108is9";
+import { hideDoorGlow } from "../background.js?v=20261108is9";
+import { ARTEFACTS } from "../data-progression.js?v=20261108is9";
 
 // BUG CORRIGIDO: nextLevel() não tinha nenhuma proteção contra ser chamada
 // duas vezes seguidas para a MESMA conclusão de nível (ex.: o botão
