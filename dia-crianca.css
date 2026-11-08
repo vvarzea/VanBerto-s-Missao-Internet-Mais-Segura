@@ -1726,9 +1726,9 @@ body.hc-mode .map-progress-fill { background: #ffff00 !important; }
   box-shadow: 0 0 0 3px rgba(28,168,88,0.35), 0 4px 10px rgba(0,0,0,0.4);
 }
 .level-node--current {
-  background: radial-gradient(circle at 35% 30%, #ffe680, #00ccff);
-  color: #003b4a;
-  box-shadow: 0 0 0 4px rgba(255,215,0,0.45), 0 0 22px rgba(0,204,255,0.65), 0 4px 10px rgba(0,0,0,0.4);
+  background: radial-gradient(circle at 35% 30%, #fff3a0, #ffd21f);
+  color: #4a3a00;
+  box-shadow: 0 0 0 4px rgba(255,215,0,0.45), 0 0 22px rgba(255,215,0,0.7), 0 4px 10px rgba(0,0,0,0.4);
   animation: levelNodePulse 1.8s ease-in-out infinite;
 }
 .level-node--locked {
@@ -1739,7 +1739,7 @@ body.hc-mode .map-progress-fill { background: #ffff00 !important; }
   filter: grayscale(0.3);
 }
 @keyframes levelNodePulse {
-  0%,100% { box-shadow: 0 0 0 4px rgba(255,215,0,0.45), 0 0 22px rgba(0,204,255,0.65), 0 4px 10px rgba(0,0,0,0.4); }
+  0%,100% { box-shadow: 0 0 0 4px rgba(255,215,0,0.45), 0 0 22px rgba(255,215,0,0.7), 0 4px 10px rgba(0,0,0,0.4); }
   50% { box-shadow: 0 0 0 7px rgba(255,215,0,0.25), 0 0 34px rgba(0,204,255,0.85), 0 4px 10px rgba(0,0,0,0.4); }
 }
 

@@ -12,11 +12,11 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is4";
-import { showFloat } from "./feedback.js?v=20261108is4";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is4";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is4";
-import { THEMES } from "../data-levels.js?v=20261108is4";
+import { platforms, itemsGroup, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is6";
+import { showFloat } from "./feedback.js?v=20261108is6";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is6";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is6";
+import { THEMES } from "../data-levels.js?v=20261108is6";
 
 const BLOCK = 40;
 let brickHintShown = false;
@@ -220,7 +220,28 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     pattern.forEach((t, i) => addBlock(cx - w / 2 + BLOCK / 2 + i * BLOCK, cy, t));
   };
 
-  // 1) Fileiras de blocos por cima do chão/plataformas (cabeçada a partir de baixo)
+  // 1) Plataformas extra flutuantes, com 1–2 blocos por cima
+  const nExtra = 2 + (idx >= 7 ? 1 : 0) + (idx >= 14 ? 1 : 0);
+  const themeIdx = L.theme % THEMES.length;
+  const platKey = "platform_t" + themeIdx;
+  if (!scene.textures.exists(platKey)) makePlatformTextureThemed(scene, platKey, themeIdx);
+  const PW = 150, TOP = 385, PY = TOP + 11;
+  let extras = 0;
+  for (const cx of cands) {
+    if (extras >= nExtra) break;
+    if (!farFromOthers(cx)) continue;
+    const ground = anchors.find(a => a.t >= 430 && cx - PW / 2 - 20 >= a.l && cx + PW / 2 + 20 <= a.r);
+    if (!ground) continue;
+    if (hits(cx - PW / 2 - 30, cx + PW / 2 + 30, 190, 425, ground, 430)) continue;
+    const plat = platforms.create(cx, PY, platKey);
+    plat.displayWidth = PW; plat.displayHeight = 22; plat.refreshBody(); plat.setData("extra", true);
+    if (plat.body) { plat.body.checkCollision.left = false; plat.body.checkCollision.right = false; }
+    layRow(cx, TOP - 154, rnd() < 0.5 ? ["q"] : ["brick", "q"]);
+    obst.push(rect(cx, 290, PW + 30, 220));
+    centers.push(cx); extras++;
+  }
+
+  // 2) Fileiras de blocos por cima do chão/plataformas (cabeçada a partir de baixo)
   const nRows = 2 + (idx >= 6 ? 1 : 0) + (idx >= 13 ? 1 : 0);
   const rowPatterns = [["brick", "q", "brick"], ["q", "brick", "q"], ["brick", "q", "brick", "q", "brick"], ["q"]];
   let rows = 0;
@@ -252,24 +273,4 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     centers.push(cx); rows++;
   }
 
-  // 2) Plataformas extra flutuantes, com 1–2 blocos por cima
-  const nExtra = 2 + (idx >= 7 ? 1 : 0) + (idx >= 14 ? 1 : 0);
-  const themeIdx = L.theme % THEMES.length;
-  const platKey = "platform_t" + themeIdx;
-  if (!scene.textures.exists(platKey)) makePlatformTextureThemed(scene, platKey, themeIdx);
-  const PW = 150, TOP = 385, PY = TOP + 11;
-  let extras = 0;
-  for (const cx of cands) {
-    if (extras >= nExtra) break;
-    if (!farFromOthers(cx)) continue;
-    const ground = anchors.find(a => a.t >= 480 && cx - PW / 2 - 20 >= a.l && cx + PW / 2 + 20 <= a.r);
-    if (!ground) continue;
-    if (hits(cx - PW / 2 - 45, cx + PW / 2 + 45, 190, ground.t - 2, ground, 430)) continue;
-    const plat = platforms.create(cx, PY, platKey);
-    plat.displayWidth = PW; plat.displayHeight = 22; plat.refreshBody();
-    if (plat.body) { plat.body.checkCollision.left = false; plat.body.checkCollision.right = false; }
-    layRow(cx, TOP - 154, rnd() < 0.5 ? ["q"] : ["brick", "q"]);
-    obst.push(rect(cx, 290, PW + 30, 220));
-    centers.push(cx); extras++;
-  }
 }
