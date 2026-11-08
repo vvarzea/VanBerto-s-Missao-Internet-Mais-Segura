@@ -12,13 +12,81 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is9";
-import { showFloat } from "./feedback.js?v=20261108is9";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is9";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is9";
-import { THEMES } from "../data-levels.js?v=20261108is9";
+import { platforms, itemsGroup, player, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is10";
+import { showFloat } from "./feedback.js?v=20261108is10";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is10";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is10";
+import { THEMES } from "../data-levels.js?v=20261108is10";
+import { onHitMalware } from "./items.js?v=20261108is10";
 
 const BLOCK = 40;
+let windVx = 0;
+let obstacleTimer = null;
+const beams = [];
+const winds = [];
+/** Empurrão do vento (px/s) a somar à velocidade do jogador; 0 fora das zonas de vento. */
+export function getWindX() { return windVx; }
+
+function startCrumble(scene, pl) {
+  if (pl.getData("crumbling")) return;
+  pl.setData("crumbling", true);
+  const ox = pl.x, oy = pl.y;
+  scene.tweens.add({ targets: pl, x: ox + 3, duration: 55, yoyo: true, repeat: 7, onComplete: () => { pl.x = ox; } });
+  ensureAudio(); beep({ freq: 180, dur: 0.1, type: "triangle", vol: 0.05, slideTo: 120 });
+  scene.time.delayedCall(650, () => {
+    if (!pl.active) return;
+    pl.body.checkCollision.none = true;
+    scene.tweens.add({ targets: pl, y: oy + 240, alpha: 0, duration: 600, ease: "Quad.easeIn",
+      onComplete: () => {
+        scene.time.delayedCall(2600, () => {
+          if (!pl.active) return;
+          pl.x = ox; pl.y = oy; pl.alpha = 1; pl.body.checkCollision.none = false;
+          pl.body.checkCollision.left = false; pl.body.checkCollision.right = false;
+          pl.setData("crumbling", false);
+        });
+      } });
+  });
+}
+
+function firewallPhase(now) {
+  // período e janela ligada dependem da dificuldade
+  const on = difficulty === "extremo" ? 2300 : difficulty === "dificil" ? 1900 : 1500;
+  const off = difficulty === "extremo" ? 1200 : difficulty === "dificil" ? 1600 : 2100;
+  const t = now % (on + off);
+  if (t < on) return "on";
+  return t > on + off - 450 ? "warn" : "off";
+}
+
+function tickObstacles(scene) {
+  if (!scene || !scene.sys || !scene.sys.isActive || !player || !player.body) return;
+  const now = scene.time.now;
+  const ph = firewallPhase(now);
+  const pb = player.body;
+  for (const b of beams) {
+    if (!b.active || !b.visible) continue;
+    const warn = ph === "warn";
+    b.setAlpha(ph === "on" ? 0.95 : warn ? (Math.floor(now / 90) % 2 ? 0.45 : 0.12) : 0.07);
+    if (ph === "on" && !starPower) {
+      const bx = b.x - 9, bw = 18, by = b.y - b.displayHeight / 2, bh = b.displayHeight;
+      if (pb.right > bx && pb.left < bx + bw && pb.bottom > by && pb.top < by + bh) onHitMalware(player, b);
+    }
+  }
+  let wx = 0;
+  for (const w of winds) {
+    if (!w.marker.active || !w.marker.visible) { if (w.emitter) w.emitter.stop(); continue; }
+    if (w.emitter && !w.emitter.emitting) w.emitter.start();
+    if (pb.right > w.l && pb.left < w.r && pb.bottom > w.t && pb.top < w.b) wx += w.dir * 95;
+  }
+  windVx = wx;
+}
+
+function clearObstacles(scene) {
+  if (obstacleTimer) { obstacleTimer.remove(false); obstacleTimer = null; }
+  beams.length = 0;
+  winds.forEach(w => { if (w.emitter) w.emitter.destroy(); });
+  winds.length = 0;
+  windVx = 0;
+}
 let brickHintShown = false;
 
 function mulberry32(a) {
@@ -31,6 +99,36 @@ function mulberry32(a) {
 }
 
 // ===== Texturas (desenhadas em canvas, 40×40) =====
+function makeObstacleTextures(scene) {
+  if (scene.textures.exists("fw_beam")) return;
+  const mk = (key, w, h, draw) => {
+    const t = scene.textures.createCanvas(key, w, h);
+    draw(t.getContext());
+    t.refresh();
+  };
+  mk("fw_beam", 26, 140, c => {            // feixe do firewall (vermelho-rosa a brilhar)
+    const g = c.createLinearGradient(0, 0, 26, 0);
+    g.addColorStop(0, "rgba(255,60,110,0)"); g.addColorStop(0.5, "rgba(255,90,130,0.95)"); g.addColorStop(1, "rgba(255,60,110,0)");
+    c.fillStyle = g; c.fillRect(0, 0, 26, 140);
+    c.fillStyle = "rgba(255,255,255,0.9)"; c.fillRect(11, 0, 4, 140);
+  });
+  mk("fw_post", 34, 22, c => {             // base/emissor do firewall
+    c.fillStyle = "#1e1b4b"; c.fillRect(0, 4, 34, 18);
+    c.fillStyle = "#4b5bd6"; c.fillRect(2, 6, 30, 14);
+    c.fillStyle = "#9ff0ff"; c.fillRect(11, 1, 12, 6);
+    c.fillStyle = "#1e1b4b"; c.fillRect(10, 0, 14, 2);
+  });
+  mk("crumble", 140, 22, c => {            // plataforma frágil (pedra gretada)
+    c.fillStyle = "#1e1b4b"; c.fillRect(0, 0, 140, 22);
+    c.fillStyle = "#b7c0e8"; c.fillRect(2, 2, 136, 18);
+    c.fillStyle = "#dfe5ff"; c.fillRect(2, 2, 136, 5);
+    c.strokeStyle = "#1e1b4b"; c.lineWidth = 2;
+    [[22, 2, 30, 20], [58, 2, 46, 20], [92, 2, 82, 20], [112, 2, 124, 20]].forEach(([x1, y1, x2, y2]) => {
+      c.beginPath(); c.moveTo(x1, y1); c.lineTo((x1 + x2) / 2 + 5, 11); c.lineTo(x2, y2); c.stroke();
+    });
+  });
+}
+
 function makeBlockTextures(scene) {
   if (scene.textures.exists("blk_q")) return;
   const mk = (key, draw) => {
@@ -71,6 +169,10 @@ function makeBlockTextures(scene) {
 
 // ===== Cabeçada =====
 export function onPlatformCollide(playerObj, pl) {
+  if (pl && pl.getData && pl.getData("crumble")) {
+    if (playerObj.body && playerObj.body.touching.down) startCrumble(playerObj.scene, pl);
+    return;
+  }
   if (!pl || !pl.getData || !pl.getData("isBlock")) return;
   const pb = playerObj.body;
   if (!pb || !pb.touching.up || pb.touching.down) return;
@@ -158,6 +260,8 @@ function breakBrick(scene, b) {
 
 // ===== Geração =====
 export function addBlocksAndPlatforms(scene, L, idx) {
+  clearObstacles(scene);
+  makeObstacleTextures(scene);
   makeBlockTextures(scene);
   brickHintShown = false;
   const rnd = mulberry32(idx * 9973 + 17);
@@ -188,7 +292,7 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     obst.some(o => o !== skip && !(o.r <= zl || o.l >= zr || o.b <= zt || o.t >= (o.soft ? softB : zb)));
 
   const centers = [];
-  const farFromOthers = cx => centers.every(c => Math.abs(c - cx) >= 300);
+  const farFromOthers = cx => centers.every(c => Math.abs(c - cx) >= 230);
 
   // Candidatos de x, embaralhados com a semente
   const cands = [];
@@ -239,6 +343,90 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     layRow(cx, TOP - 154, rnd() < 0.5 ? ["q"] : ["brick", "q"]);
     obst.push(rect(cx, 290, PW + 30, 220));
     centers.push(cx); extras++;
+  }
+
+  // 3) OBSTÁCULOS NOVOS: plataformas que caem, firewalls intermitentes e vento
+  const farFar = (cx, d) => centers.every(c => Math.abs(c - cx) >= d);
+  const special = [rect(L.spawn.x, 400, 380, 600), rect(L.doorX, 300, 460, 700), rect(L.signX || (L.spawn.x + 240), 450, 220, 260)];
+  (L.pipes || []).forEach(p => {
+    special.push(rect(p.x, p.y, 120, 200));
+    if (p.toX != null) special.push(rect(p.toX, p.toY, 120, 200));
+  });
+  (L.trampolines || []).forEach(t => special.push({ l: t.x - 100, r: t.x + 100, t: 100, b: 560 }));
+  const hitsSpecial = (zl, zr, zt, zb) => special.some(o => !(o.r <= zl || o.l >= zr || o.b <= zt || o.t >= zb));
+  const groundAt = (cx, half) => anchors.find(a => a.t >= 480 && cx - half >= a.l && cx + half <= a.r);
+  const keyFor = () => {
+    const r = rnd();
+    return difficulty === "dificil" ? (r < 0.5 ? "item_duplosalto" : "item_medalha")
+      : (r < 0.4 ? "item_duplosalto" : r < 0.8 ? "item_medalha" : "item_heart");
+  };
+
+  // 3a) Plataformas que caem, com um prémio por cima (arriscas ou não)
+  const nCrumble = (idx >= 2 && difficulty !== "extremo") ? (idx >= 9 ? 2 : 1) : 0;
+  let crumbles = 0;
+  for (const cx of cands) {
+    if (crumbles >= nCrumble) break;
+    if (!farFar(cx, 150)) continue;
+    // Apoia-se no chão ou numa plataforma existente (sobe-se por baixo, ~125 px)
+    const an = anchors.find(a => a.t >= 330 && a.t <= 520 && a.r - a.l >= 160 && cx - 80 >= a.l && cx + 80 <= a.r
+      && !hits(cx - 85, cx + 85, a.t - 195, a.t - 2, a, a.t - 2) && !hitsSpecial(cx - 85, cx + 85, a.t - 195, a.t));
+    if (!an) continue;
+    const T = an.t - 125;
+    const pl = platforms.create(cx, T + 11, "crumble");
+    pl.setDepth(2); pl.setData("crumble", true);
+    if (pl.body) { pl.body.checkCollision.left = false; pl.body.checkCollision.right = false; }
+    const it = itemsGroup.create(cx, T - 48, keyFor());
+    it.setDepth(5); it.setData("kind", it.texture.key.replace("item_", "")); it.setData("bonus", true);
+    scene.tweens.add({ targets: it, y: it.y - 6, duration: 900, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    obst.push(rect(cx, T - 20, 200, 160)); centers.push(cx); crumbles++;
+  }
+
+  // 3b) Firewalls: feixes que ligam e desligam (com aviso a piscar antes de ligar)
+  const nBeams = idx >= 3 ? (idx >= 10 ? 2 : 1) + (idx >= 16 ? 1 : 0) : 0;
+  let nb = 0;
+  for (const cx of cands) {
+    if (nb >= nBeams) break;
+    if (!farFar(cx, 130)) continue;
+    const g = groundAt(cx, 60);
+    if (!g) continue;
+    const top = g.t;
+    if (hits(cx - 55, cx + 55, top - 106, top - 2, g, top - 2) || hitsSpecial(cx - 60, cx + 60, top - 106, top)) continue;
+    const base = platforms.create(cx, top - 9, "fw_post"); base.setDepth(3);
+    base.body.checkCollision.none = true;
+    const beam = platforms.create(cx, top - 18 - 40, "fw_beam"); beam.setDepth(3); beam.setDisplaySize(26, 80);
+    beam.body.checkCollision.none = true; beam.setData("firewall", true);
+    beams.push(beam);
+    obst.push(rect(cx, top - 60, 140, 130)); centers.push(cx); nb++;
+  }
+
+  // 3c) Vento: zona que empurra o VanBerto's para um lado (níveis alternados)
+  const nWind = (idx >= 6 && idx % 2 === 0) ? 1 : 0;
+  let nw = 0;
+  for (const cx of cands) {
+    if (nw >= nWind) break;
+    if (!farFar(cx, 120)) continue;
+    const g = groundAt(cx, 125);
+    if (!g) continue;
+    const top = g.t;
+    if (hitsSpecial(cx - 125, cx + 125, 300, top)) continue;
+    const dir = rnd() < 0.5 ? -1 : 1;
+    const marker = platforms.create(cx, top - 120, "fw_post"); marker.setAlpha(0); marker.body.checkCollision.none = true;
+    const zone = { l: cx - 125, r: cx + 125, t: top - 240, b: top, dir, marker, emitter: null };
+    const tex = scene.textures.exists("spark_item") ? "spark_item" : null;
+    if (tex) {
+      zone.emitter = scene.add.particles(0, 0, tex, {
+        x: { min: dir > 0 ? zone.l : zone.r - 30, max: dir > 0 ? zone.l + 30 : zone.r },
+        y: { min: zone.t + 20, max: zone.b - 20 },
+        speedX: dir * 260, speedY: 0, lifespan: 1300, frequency: 90, quantity: 1,
+        scale: { start: 0.9, end: 0.2 }, alpha: { start: 0.65, end: 0 }, tint: [0xdff4ff, 0x9fe3ff, 0xffffff]
+      }).setDepth(4);
+    }
+    winds.push(zone);
+    obst.push(rect(cx, top - 120, 260, 250)); centers.push(cx); nw++;
+  }
+
+  if (beams.length || winds.length) {
+    obstacleTimer = scene.time.addEvent({ delay: 40, loop: true, callback: () => tickObstacles(scene) });
   }
 
   // 2) Fileiras de blocos por cima do chão/plataformas (cabeçada a partir de baixo)

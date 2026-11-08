@@ -5,6 +5,11 @@ estrelas, conquistas, certificado, PWA offline) com a identidade do jogo «VanBe
 
 ## Novidades desta versão
 
+- **Obstáculos novos** (`game/blocks.js`), colocados automaticamente em sítios livres:
+  - **Plataformas que caem** (pedra gretada): abanam ao pisá-las, caem ao fim de ~0,7 s e voltam passados ~3 s. Têm um prémio por cima (escudo, duplo salto ou vida). Não existem no Extremo.
+  - **Firewalls** (feixe vermelho-rosa entre dois postes): ligam e desligam, piscam antes de ligar e tiram uma vida se tocares com o feixe ligado. Com Star Power atravessas. Nível 4 em diante.
+  - **Vento** (zona com riscas brancas): empurra o VanBerto's para um lado enquanto lá estiveres. Só em alguns níveis.
+
 - **Estética nova (tema claro):** fundo creme com pontinhos, cartões brancos com contorno marinho grosso e sombra dura, botões amarelos para a ação principal, letra Nunito. Modal inicial com a mascote VanBerto's e «Olá! Como te chamas?». Os fundos dos mundos mantêm as cores originais das imagens.
 
 - **Blocos para dar cabeçadas (tipo Super Mário)** — `game/blocks.js`:

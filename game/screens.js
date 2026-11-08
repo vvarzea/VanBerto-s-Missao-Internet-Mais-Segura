@@ -7,23 +7,23 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { renderAlbum, resetAllProgress } from "./artefacts.js?v=20261108is9";
-import { btnMute, btnPause } from "./dom.js?v=20261108is9";
-import { playLevelTransition } from "./door.js?v=20261108is9";
-import { loadLevel, updateHearts } from "./level.js?v=20261108is9";
-import { BG_FILES } from "./map.js?v=20261108is9";
-import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261108is9";
-import { showHistory } from "./quiz.js?v=20261108is9";
-import { showPauseScreen } from "./scene.js?v=20261108is9";
-import { _certificateOpenedFrom, difficulty, getStartLives, mapProgress, pausedByTeacher, playerName, powerHaloGfx, sceneRef, score, scoreText, setDifficulty, set__certificateOpenedFrom, set__overlayPaused, set_awaitingQuiz, set_currentLevel, set_lives, set_livesLostThisLevel, set_pausedByTeacher, set_score, shadowGfx } from "./state.js?v=20261108is9";
-import { adventureScore, globalStats, medalTextCert, medalTier, updatePlayTime } from "./stats.js?v=20261108is9";
-import { toggleFullscreen } from "./ui.js?v=20261108is9";
-import { ensureAudio, SFX, isMuted, toggleMuted } from "../audio.js?v=20261108is9";
-import { renderAchievements, unlockedAchievements } from "../achievements.js?v=20261108is9";
-import { LEVELS } from "../data-levels.js?v=20261108is9";
-import { totalStarsEarned, levelStars } from "../stars.js?v=20261108is9";
-import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261108is9";
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is9";
+import { renderAlbum, resetAllProgress } from "./artefacts.js?v=20261108is10";
+import { btnMute, btnPause } from "./dom.js?v=20261108is10";
+import { playLevelTransition } from "./door.js?v=20261108is10";
+import { loadLevel, updateHearts } from "./level.js?v=20261108is10";
+import { BG_FILES } from "./map.js?v=20261108is10";
+import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261108is10";
+import { showHistory } from "./quiz.js?v=20261108is10";
+import { showPauseScreen } from "./scene.js?v=20261108is10";
+import { _certificateOpenedFrom, difficulty, getStartLives, mapProgress, pausedByTeacher, playerName, powerHaloGfx, sceneRef, score, scoreText, setDifficulty, set__certificateOpenedFrom, set__overlayPaused, set_awaitingQuiz, set_currentLevel, set_lives, set_livesLostThisLevel, set_pausedByTeacher, set_score, shadowGfx } from "./state.js?v=20261108is10";
+import { adventureScore, globalStats, medalTextCert, medalTier, updatePlayTime } from "./stats.js?v=20261108is10";
+import { toggleFullscreen } from "./ui.js?v=20261108is10";
+import { ensureAudio, SFX, isMuted, toggleMuted } from "../audio.js?v=20261108is10";
+import { renderAchievements, unlockedAchievements } from "../achievements.js?v=20261108is10";
+import { LEVELS } from "../data-levels.js?v=20261108is10";
+import { totalStarsEarned, levelStars } from "../stars.js?v=20261108is10";
+import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261108is10";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is10";
 
 // =====================================================
 // ===== CONQUISTAS =====
