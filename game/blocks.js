@@ -12,11 +12,11 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is6";
-import { showFloat } from "./feedback.js?v=20261108is6";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is6";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is6";
-import { THEMES } from "../data-levels.js?v=20261108is6";
+import { platforms, itemsGroup, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is7";
+import { showFloat } from "./feedback.js?v=20261108is7";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is7";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is7";
+import { THEMES } from "../data-levels.js?v=20261108is7";
 
 const BLOCK = 40;
 let brickHintShown = false;
@@ -124,9 +124,9 @@ function releaseContent(scene, b) {
   if (kind === "moeda") {
     addPoints(10);
     ensureAudio(); SFX.coin();
-    const coin = scene.add.text(b.x, b.y - 26, "🪙", { fontSize: "26px" }).setOrigin(0.5).setDepth(6);
+    const coin = scene.add.text(b.x, b.y - 26, "💎", { fontSize: "26px" }).setOrigin(0.5).setDepth(6);
     scene.tweens.add({ targets: coin, y: coin.y - 52, alpha: 0, duration: 520, ease: "Quad.easeOut", onComplete: () => coin.destroy() });
-    showFloat(scene, b.x, b.y - 60, "+10 🪙", "#ffd700");
+    showFloat(scene, b.x, b.y - 60, "+10 💎", "#ffd700");
     return;
   }
   const keyMap = { medalha: "item_medalha", duplosalto: "item_duplosalto", heart: "item_heart", estrela: "item_estrela" };

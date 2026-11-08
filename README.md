@@ -6,11 +6,11 @@ estrelas, conquistas, certificado, PWA offline) com a identidade do jogo «VanBe
 ## Novidades desta versão
 
 - **Blocos para dar cabeçadas (tipo Super Mário)** — `game/blocks.js`:
-  - **Bloco «?»** (dourado): salta por baixo e bate com a cabeça. Dá 🪙 +10 pontos ou, às vezes, um item (🛡️ escudo,
+  - **Bloco «?»** (dourado): salta por baixo e bate com a cabeça. Dá 💎 (cristal) +10 pontos ou, às vezes, um item (🛡️ escudo,
     🦅 duplo salto, ❤️ vida). Fica cinzento depois de usado.
   - **Tijolo**: dá só um abanão; com o **escudo 🛡️** (ou Star Power) o VanBerto's **parte-o** (+5 pontos).
   - Dá também para saltar para cima dos blocos e usá-los como degraus.
-- **Plataformas extra flutuantes** com blocos por cima, em todos os níveis (2 a 4 por nível, mais nos níveis finais).
+- **Plataformas extra flutuantes** com blocos por cima, em todos os níveis (1 a 2 por nível).
 - Os blocos e as plataformas extra são colocados automaticamente em sítios livres (sem tapar canos, trampolins, itens,
   spawn, porta ou letreiros) e ficam sempre no mesmo lugar em cada nível.
 - Na **Fácil** os blocos podem dar escudo, duplo salto e vida; no **Difícil** só moedas, duplo salto e escudo;
