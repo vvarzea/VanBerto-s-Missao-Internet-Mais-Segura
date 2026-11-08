@@ -7,7 +7,7 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { PRAISE } from "../data-flavor.js?v=20261107is1";
+import { PRAISE } from "../data-flavor.js?v=20261108is2";
 
 // ===== Elogios =====
 
@@ -24,7 +24,7 @@ export function pickPraise() { return PRAISE[Math.floor(Math.random() * PRAISE.l
 
 let _floatBurst = [];
 
-export function showFloat(scene, x, y, msg, color="#ff6b35") {
+export function showFloat(scene, x, y, msg, color="#2ad4ff") {
   const now = scene.time.now;
   _floatBurst = _floatBurst.filter(ts => now - ts < 500);
   const offsetY = Math.min(_floatBurst.length, 5) * 26;

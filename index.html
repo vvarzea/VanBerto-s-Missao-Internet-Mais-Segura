@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-tq0er9YgMj5AkKnbnJ71mtSdWXq0f/aPoTRiW0I1sjM=' 'sha256-RuAraqiv2FYLC8N/puUYLXADGlp3wvWWcwLwcx2Vc4c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self' data: blob:; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
   <meta name="description" content="VanBerto's e a Missão Internet Segura: jogo educativo sobre segurança online para crianças." />
-  <meta name="theme-color" content="#ff6b35" />
+  <meta name="theme-color" content="#35d7ff" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
@@ -18,7 +18,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="VanBerto's" />
   <title>VanBerto's e a Missão Internet Segura</title>
-  <link rel="stylesheet" href="dia-crianca.css?v=20261107is1" />
+  <link rel="stylesheet" href="dia-crianca.css?v=20261108is2" />
 </head>
 <body>
 
@@ -28,12 +28,12 @@
        falhas durante o carregamento. Ver a explicação e os testes em dia-crianca.js / _dev/smoke.py.
   ═══════════════════════════════════════════ -->
   <div id="fatalErrorOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(10,4,32,0.92);align-items:center;justify-content:center;padding:16px;font-family:'Baloo 2',sans-serif;">
-    <div style="max-width:420px;width:100%;background:#2a0a4e;border:3px solid #ffd700;border-radius:14px;padding:22px 24px;text-align:center;color:#fff;box-shadow:0 0 40px rgba(224,32,154,0.4);">
+    <div style="max-width:420px;width:100%;background:#0a1e4e;border:3px solid #ffd700;border-radius:14px;padding:22px 24px;text-align:center;color:#fff;box-shadow:0 0 40px rgba(32,90,224,0.4);">
       <div style="font-size:40px;margin-bottom:6px;">😵</div>
       <h2 style="margin:0 0 8px;color:#ffd700;font-size:20px;">Ups, algo correu mal!</h2>
       <p style="margin:0 0 6px;font-size:14px;line-height:1.5;">Não é culpa tua — o jogo encontrou um problema inesperado.</p>
       <p style="margin:0 0 16px;font-size:13px;line-height:1.5;opacity:0.85;">O teu progresso já está guardado neste dispositivo. Tenta recarregar; se acontecer sempre, pede a um adulto para avisar quem fez o jogo.</p>
-      <button id="btnFatalReload" style="font:inherit;font-weight:800;font-size:15px;padding:10px 22px;border-radius:10px;border:2px solid #ffd700;background:linear-gradient(180deg,#ff8a3d,#ff6b35);color:#fff;cursor:pointer;">🔄 Recarregar o jogo</button>
+      <button id="btnFatalReload" style="font:inherit;font-weight:800;font-size:15px;padding:10px 22px;border-radius:10px;border:2px solid #ffd700;background:linear-gradient(180deg,#3dd8ff,#35d7ff);color:#fff;cursor:pointer;">🔄 Recarregar o jogo</button>
       <p id="fatalErrorDetail" style="margin:14px 0 0;font-size:10px;opacity:0.5;word-break:break-word;"></p>
     </div>
   </div>
@@ -98,7 +98,7 @@
         <span class="hint-pc">PC: ← → para andar, ↑/Espaço para saltar e ↓/S para agachar.<br></span>
         Tablet/telemóvel: mantém o dedo no lado esquerdo/direito para andar e faz um toque rápido para saltar.
       </p>
-      <p class="tiny" id="versionTag" hidden aria-hidden="true" style="display:none !important;">Versão 20261107is1</p>
+      <p class="tiny" id="versionTag" hidden aria-hidden="true" style="display:none !important;">Versão 20261108is2</p>
     </div>
   </div>
 
@@ -376,57 +376,57 @@
   <div id="howOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Como jogar">
     <div class="card" style="max-height:88dvh;overflow-y:auto;padding:18px 20px;">
       <h2 style="margin-bottom:4px;">Como jogar</h2>
-      <p style="font-size:11px;color:#ffd070;margin:0 0 12px;font-style:italic;">Lê com atenção antes de começar!</p>
+      <p style="font-size:11px;color:#70e2ff;margin:0 0 12px;font-style:italic;">Lê com atenção antes de começar!</p>
 
       <!-- OBJETIVO -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 4px;">🎯 Objetivo</p>
-      <p style="font-size:12px;color:#ffe0d0;margin:0 0 10px;line-height:1.6;">
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 4px;">🎯 Objetivo</p>
+      <p style="font-size:12px;color:#d0f6ff;margin:0 0 10px;line-height:1.6;">
         Chega ao <strong>portal ✨</strong> no fim de cada nível. Quando chegares, aparece uma <strong>pergunta</strong> sobre Cibersegurança — responde corretamente para avançar! O jogo tem <strong>20 níveis</strong>.
       </p>
 
       <!-- DIFICULDADE -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 6px;">🎯 Nível de Dificuldade</p>
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 6px;">🎯 Nível de Dificuldade</p>
       <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
-        <div style="background:rgba(0,160,0,0.12);border:1px solid rgba(80,200,80,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#ffe0d0;line-height:1.5;">
+        <div style="background:rgba(0,160,0,0.12);border:1px solid rgba(80,200,80,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#d0f6ff;line-height:1.5;">
           😊 <strong>Fácil</strong><br>
           <span style="color:#b8ffb8;">Ritmo habitual — a experiência original do jogo.</span>
         </div>
-        <div style="background:rgba(255,107,53,0.14);border:1px solid rgba(255,150,80,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#ffe0d0;line-height:1.5;">
+        <div style="background:rgba(53,215,255,0.14);border:1px solid rgba(80,220,255,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#d0f6ff;line-height:1.5;">
           🎓 <strong>Difícil</strong><br>
           <span style="color:#ffd700;">Perguntas mais aprofundadas, vilões/chefes mais rápidos, menos vidas.</span>
         </div>
-        <div style="background:rgba(255,30,30,0.14);border:1px solid rgba(255,80,80,0.35);border-radius:8px;padding:7px 10px;font-size:12px;color:#ffe0d0;line-height:1.5;">
+        <div style="background:rgba(255,30,30,0.14);border:1px solid rgba(255,80,80,0.35);border-radius:8px;padding:7px 10px;font-size:12px;color:#d0f6ff;line-height:1.5;">
           🔥 <strong>Extremo</strong><br>
           <span style="color:#ffb0b0;">Só 1 vida, vilões/chefes ainda mais rápidos, quase sem Star Power.</span>
         </div>
       </div>
-      <p style="font-size:11px;color:#ffd070;margin:0 0 10px;font-style:italic;">
+      <p style="font-size:11px;color:#70e2ff;margin:0 0 10px;font-style:italic;">
         💡 Podes escolher ou mudar isto a qualquer momento em Opções.
       </p>
 
       <!-- VILÕES -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 6px;">👾 Os Vilões — cuidado com cada tipo!</p>
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 6px;">👾 Os Vilões — cuidado com cada tipo!</p>
       <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
-        <div style="background:rgba(255,30,0,0.12);border:1px solid rgba(255,80,80,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#ffe0d0;line-height:1.5;">
+        <div style="background:rgba(255,30,0,0.12);border:1px solid rgba(255,80,80,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#d0f6ff;line-height:1.5;">
           🔴 <strong>Trapalhão</strong> — pequeno (o mais fácil)<br>
           <span style="color:#ffb0a0;">Patrulha uma zona pequena em vai-e-vem. Lenta e previsível — boa para treinar!</span>
         </div>
-        <div style="background:rgba(0,60,220,0.14);border:1px solid rgba(80,130,255,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#ffe0d0;line-height:1.5;">
+        <div style="background:rgba(0,60,220,0.14);border:1px solid rgba(80,130,255,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#d0f6ff;line-height:1.5;">
           🔵 <strong>Saltitão</strong> — médio<br>
           <span style="color:#b0c8ff;">Patrulha horizontalmente e salta de vez em quando. Mantém distância!</span>
         </div>
-        <div style="background:rgba(0,160,0,0.12);border:1px solid rgba(80,200,80,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#ffe0d0;line-height:1.5;">
+        <div style="background:rgba(0,160,0,0.12);border:1px solid rgba(80,200,80,0.3);border-radius:8px;padding:7px 10px;font-size:12px;color:#d0f6ff;line-height:1.5;">
           🟢 <strong>Perseguilão</strong> — grande (o mais perigoso)<br>
           <span style="color:#a0ffb0;">Salta frequentemente e dirige-se ao jogador. Aparece nos níveis mais avançados — muito cuidado!</span>
         </div>
       </div>
-      <p style="font-size:11px;color:#ffd070;margin:0 0 10px;font-style:italic;">
+      <p style="font-size:11px;color:#70e2ff;margin:0 0 10px;font-style:italic;">
         💡 Se apanhares a estrela ⭐, podes atropelar qualquer vilão durante 8 segundos!
       </p>
 
       <!-- ITENS -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 6px;">🎁 O que apanhar</p>
-      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#ffe0d0;line-height:1.9;">
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 6px;">🎁 O que apanhar</p>
+      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#d0f6ff;line-height:1.9;">
         <li>⭐ <strong>Estrela</strong> — ativa o <strong>Star Power por 8s</strong>: atropela vilões e ganha pontos!</li>
         <li>🛡️ <strong>Escudo</strong> — fica maior e <strong>invencível por 8s</strong>; absorve um golpe de vilão</li>
         <li>🦅 <strong>Asas</strong> — permite <strong>saltar duas vezes</strong> no ar durante 10s (muito útil em plataformas altas!)</li>
@@ -434,47 +434,47 @@
         <li>🔐 <strong>Chip de Segurança / 🔑 Chave / 🏅 Medalha</strong> — valem <strong>pontos bónus</strong></li>
         <li>❓ <strong>Ponto de interrogação</strong> — esconde um item surpresa! Passa por cima para revelar</li>
       </ul>
-      <p style="font-size:11px;color:#ffd070;margin:0 0 10px;font-style:italic;">
+      <p style="font-size:11px;color:#70e2ff;margin:0 0 10px;font-style:italic;">
         💡 Se perderes uma vida, <strong>todos os itens voltam a aparecer</strong> — podes apanhá-los de novo!
       </p>
 
       <!-- PLATAFORMAS ESPECIAIS -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 6px;">🟡 Plataformas especiais</p>
-      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#ffe0d0;line-height:1.9;">
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 6px;">🟡 Plataformas especiais</p>
+      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#d0f6ff;line-height:1.9;">
         <li>↔ <strong>Setas horizontais</strong> — a plataforma move-se da esquerda para a direita</li>
         <li>↕ <strong>Setas verticais</strong> — a plataforma sobe e desce</li>
         <li>🟠 <strong>Trampolim</strong> — catapulta-te muito mais alto que um salto normal!</li>
       </ul>
 
       <!-- CANOS -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 6px;">🚇 Canos</p>
-      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#ffe0d0;line-height:1.9;">
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 6px;">🚇 Canos</p>
+      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#d0f6ff;line-height:1.9;">
         <li>Chega-te perto de um cano e carrega <strong>↓</strong> (ou <strong>S</strong>) para tentares um atalho!</li>
         <li>🎁 Alguns levam a uma <strong>sala secreta</strong>, com uma recompensa e uma curiosidade à espera</li>
         <li>Nem todos os canos são de entrar — alguns são só obstáculos, tens de lhes saltar por cima!</li>
       </ul>
 
       <!-- PONTUAÇÃO -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 6px;">⭐ Pontuação</p>
-      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#ffe0d0;line-height:1.9;">
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 6px;">⭐ Pontuação</p>
+      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#d0f6ff;line-height:1.9;">
         <li>✅ Resposta certa à primeira → <strong>+100 pontos por nível</strong></li>
         <li>🥇 Nível sem perder nenhuma vida → <strong>bónus +50 pontos</strong></li>
         <li>💥 Atropelar vilão com Star Power → <strong>+50 pontos por vilão</strong></li>
       </ul>
 
       <!-- ESTRELAS COLECIONÁVEIS -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 6px;">⭐ Estrelas Colecionáveis (por nível)</p>
-      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#ffe0d0;line-height:1.9;">
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 6px;">⭐ Estrelas Colecionáveis (por nível)</p>
+      <ul style="margin:0 0 10px;padding-left:18px;font-size:12px;color:#d0f6ff;line-height:1.9;">
         <li>⭐ 1ª estrela — encontraste segredos escondidos no nível</li>
         <li>⭐ 2ª estrela — completaste sem perder nenhuma vida</li>
         <li>⭐ 3ª estrela — acertaste a pergunta à primeira tentativa</li>
       </ul>
 
       <!-- CONTROLOS -->
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:8px 0 4px;">🖥️ Controlos — PC / Teclado</p>
-      <p style="margin:2px 0 8px;font-size:12px;color:#ffe0d0;">← → para andar &nbsp;|&nbsp; ↑ ou Espaço para saltar &nbsp;|&nbsp; ↓ ou S para agachar &nbsp;|&nbsp; <strong style="color:#ffd700;">P</strong> — pausa &nbsp;|&nbsp; <strong style="color:#ffd700;">H</strong> — alto contraste &nbsp;|&nbsp; <strong style="color:#ffd700;">F</strong> — ecrã todo</p>
-      <p style="font-weight:700;font-size:13px;color:#ff6b35;margin:4px 0 4px;">📱 Tablet / Telemóvel</p>
-      <p style="margin:2px 0 14px;font-size:12px;color:#ffe0d0;">Mantém o dedo no lado esquerdo/direito para andar · Toque rápido para saltar</p>
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:8px 0 4px;">🖥️ Controlos — PC / Teclado</p>
+      <p style="margin:2px 0 8px;font-size:12px;color:#d0f6ff;">← → para andar &nbsp;|&nbsp; ↑ ou Espaço para saltar &nbsp;|&nbsp; ↓ ou S para agachar &nbsp;|&nbsp; <strong style="color:#ffd700;">P</strong> — pausa &nbsp;|&nbsp; <strong style="color:#ffd700;">H</strong> — alto contraste &nbsp;|&nbsp; <strong style="color:#ffd700;">F</strong> — ecrã todo</p>
+      <p style="font-weight:700;font-size:13px;color:#35d7ff;margin:4px 0 4px;">📱 Tablet / Telemóvel</p>
+      <p style="margin:2px 0 14px;font-size:12px;color:#d0f6ff;">Mantém o dedo no lado esquerdo/direito para andar · Toque rápido para saltar</p>
 
       <button id="btnCloseHow" class="btn primary" style="width:100%;">Entendido — vamos jogar! ▶</button>
     </div>
@@ -616,13 +616,13 @@
       <div id="winPanelReport" class="win-panel active">
         <div id="winThemeErrors" style="display:none;margin:10px 0;">
           <p style="font-weight:700;font-size:12px;color:#ffd700;margin:0 0 6px;">📊 Erros por tema</p>
-          <table id="winThemeTable" style="width:100%;border-collapse:collapse;font-size:11px;color:#ffe0d0;"></table>
+          <table id="winThemeTable" style="width:100%;border-collapse:collapse;font-size:11px;color:#d0f6ff;"></table>
         </div>
         <button id="btnReviewMode" class="btn" style="display:none;margin-top:6px;">📋 Ver erros</button>
       </div>
       <!-- PAINEL COMPETÊNCIAS CONQUISTADAS -->
       <div id="winPanelRights" class="win-panel">
-        <p style="font-size:11px;color:#ff9060;margin:4px 0 8px;text-align:center;">🏅 As 20 Competências que recuperaste</p>
+        <p style="font-size:11px;color:#60dfff;margin:4px 0 8px;text-align:center;">🏅 As 20 Competências que recuperaste</p>
         <div id="winRightsGrid" class="win-rights-grid"></div>
       </div>
       <!-- BOTÕES -->
@@ -804,7 +804,7 @@
   <div id="reviewOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Revisão das perguntas erradas">
     <div class="card" style="max-height:88dvh;overflow-y:auto;padding:18px 20px;">
       <h2 style="margin-bottom:4px;">📋 Modo Revisão</h2>
-      <p style="font-size:12px;color:#ffd070;margin:0 0 14px;font-style:italic;">As perguntas que erraste — com a resposta certa e a explicação completa.</p>
+      <p style="font-size:12px;color:#70e2ff;margin:0 0 14px;font-style:italic;">As perguntas que erraste — com a resposta certa e a explicação completa.</p>
       <div id="reviewList"></div>
       <div class="row">
         <button id="btnCloseReview" class="btn primary" style="width:100%;">✅ Entendido — fechar</button>
@@ -824,7 +824,7 @@
       }
     }
   </script>
-  <script src="phaser.min.js?v=20261107is1"></script>
-  <script type="module" src="dia-crianca.js?v=20261107is1"></script>
+  <script src="phaser.min.js?v=20261108is2"></script>
+  <script type="module" src="dia-crianca.js?v=20261108is2"></script>
 </body>
 </html>

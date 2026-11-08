@@ -12,11 +12,11 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261107is1";
-import { showFloat } from "./feedback.js?v=20261107is1";
-import { makePlatformTextureThemed } from "../textures.js?v=20261107is1";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261107is1";
-import { THEMES } from "../data-levels.js?v=20261107is1";
+import { platforms, itemsGroup, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is2";
+import { showFloat } from "./feedback.js?v=20261108is2";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is2";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is2";
+import { THEMES } from "../data-levels.js?v=20261108is2";
 
 const BLOCK = 40;
 let brickHintShown = false;
