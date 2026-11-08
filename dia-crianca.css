@@ -202,7 +202,7 @@ canvas { width: 100% !important; height: 100% !important; display: block; touch-
     box-shadow: 5px 5px 0 #0a0520, inset 0 1px 0 rgba(80,220,255,0.18);
   }
   .btn.primary:hover:not(:disabled) {
-    background: linear-gradient(180deg, #50dcff 0%, #20c0e8 100%);
+    background: linear-gradient(180deg, #fff07a 0%, #ffd21f 100%);
   }
 }
 .btn:active:not(:disabled) {
@@ -212,11 +212,11 @@ canvas { width: 100% !important; height: 100% !important; display: block; touch-
 .btn:disabled { cursor: default; opacity: 0.6; }
 
 .btn.primary {
-  background: linear-gradient(180deg, #35d7ff 0%, #10b6e0 100%);
-  color: #fff8e0;
+  background: linear-gradient(180deg, #ffe14d 0%, #f2b705 100%);
+  color: #0a2a5c;
   border-color: #ffd700;
   box-shadow: 4px 4px 0 #0a0520, inset 0 1px 0 rgba(255,220,100,0.22);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.45);
 }
 
 /* Navegação por teclado (setas ↑/↓ + Enter) — destaque visual da resposta
@@ -342,8 +342,8 @@ canvas { width: 100% !important; height: 100% !important; display: block; touch-
 }
 
 .history-card .btn.primary {
-  background: linear-gradient(180deg, #35d7ff 0%, #10b6e0 100%) !important;
-  color: #fff8e0 !important;
+  background: linear-gradient(180deg, #ffe14d 0%, #f2b705 100%) !important;
+  color: #0a2a5c !important;
   border-color: #ffd700 !important;
   box-shadow: 3px 3px 0 rgba(80,132,255,0.35) !important;
 }
@@ -631,7 +631,7 @@ canvas { width: 100% !important; height: 100% !important; display: block; touch-
 .win-stats { display: flex; flex-direction: column; gap: 8px; margin: 0 0 14px; }
 .win-stat { font-size: 14px; color: #d0f6ff; background: rgba(53,215,255,0.14); border: 1px solid rgba(255,215,0,0.18); border-radius: 6px; padding: 7px 12px; }
 .win-medal { font-size: 17px; font-weight: 800; color: #ffd700; background: rgba(255,215,0,0.14); border-color: rgba(255,215,0,0.35) !important; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
-.win-card .btn.primary { background: linear-gradient(180deg,#35d7ff,#10b6e0) !important; border-color:#ffd700 !important; color:#fff8e0 !important; font-size:15px; padding:11px 22px; }
+.win-card .btn.primary { background: linear-gradient(180deg, #ffe14d 0%, #f2b705 100%) !important; border-color:#ffd700 !important; color:#0a2a5c !important; font-size:15px; padding:11px 22px; }
 
 /* =====================================================
    VANBERTO'S ORIGINAL — ecrã de vitória
@@ -1367,8 +1367,8 @@ body.hc-mode .review-explanation { color: #ffff00 !important; border-color: #555
   font-size: 20px;
   min-height: 56px;
   gap: 10px;
-  background: linear-gradient(180deg, #45daff 0%, #0eacd4 100%) !important;
-  box-shadow: 4px 4px 0 #0a0520, 0 0 18px rgba(53,215,255,0.35) !important;
+  background: linear-gradient(180deg, #ffe14d 0%, #f2b705 100%) !important;
+  box-shadow: 4px 4px 0 #0a0520, 0 0 18px rgba(255,210,31,0.40) !important;
 }
 .menu-tile.primary span { font-size: 15px; font-weight: 900; }
 
@@ -2712,10 +2712,10 @@ body.hc-mode .lc-star-label.lc-star-label--on { color: #ffff00 !important; }
 
 .lc-continue-btn {
   font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: clamp(14px, 2.2vw, 18px);
-  color: #fff6e8; background: linear-gradient(180deg, #4adbff 0%, #35d7ff 100%);
+  color: #0a2a5c; background: linear-gradient(180deg, #ffe14d 0%, #f2b705 100%);
   border: 2px solid #ffd700; border-radius: 999px;
   padding: 10px 30px; cursor: pointer;
-  box-shadow: 0 4px 0 #1096b8, 0 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 0 #b88700, 0 8px 20px rgba(0,0,0,0.4);
   opacity: 0; animation: lcFadeUp 0.4s 0.9s ease-out both;
 }
 .lc-continue-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1096b8; }
