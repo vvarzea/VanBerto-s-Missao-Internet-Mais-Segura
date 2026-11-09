@@ -12,12 +12,12 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, player, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is10";
-import { showFloat } from "./feedback.js?v=20261108is10";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is10";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is10";
-import { THEMES } from "../data-levels.js?v=20261108is10";
-import { onHitMalware } from "./items.js?v=20261108is10";
+import { platforms, itemsGroup, player, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is11";
+import { showFloat } from "./feedback.js?v=20261108is11";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is11";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is11";
+import { THEMES } from "../data-levels.js?v=20261108is11";
+import { onHitMalware } from "./items.js?v=20261108is11";
 
 const BLOCK = 40;
 let windVx = 0;
@@ -75,7 +75,7 @@ function tickObstacles(scene) {
   for (const w of winds) {
     if (!w.marker.active || !w.marker.visible) { if (w.emitter) w.emitter.stop(); continue; }
     if (w.emitter && !w.emitter.emitting) w.emitter.start();
-    if (pb.right > w.l && pb.left < w.r && pb.bottom > w.t && pb.top < w.b) wx += w.dir * 95;
+    if (pb.right > w.l && pb.left < w.r && pb.bottom > w.t && pb.top < w.b) wx += w.dir * 120;
   }
   windVx = wx;
 }
@@ -345,9 +345,11 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     centers.push(cx); extras++;
   }
 
-  // 3) OBSTÁCULOS NOVOS: plataformas que caem, firewalls intermitentes e vento
+  // 3) OBSTÁCULOS NOVOS: plataformas que caem, firewalls intermitentes e vento.
+  // Duas passagens: a 1.ª é exigente (espaço bem livre); a 2.ª, mais flexível, só corre
+  // se faltarem obstáculos (níveis apertados), para quase todos os níveis terem algum.
   const farFar = (cx, d) => centers.every(c => Math.abs(c - cx) >= d);
-  const special = [rect(L.spawn.x, 400, 380, 600), rect(L.doorX, 300, 460, 700), rect(L.signX || (L.spawn.x + 240), 450, 220, 260)];
+  const special = [rect(L.spawn.x, 400, 260, 600), rect(L.doorX, 300, 440, 700), rect(L.signX || (L.spawn.x + 240), 450, 200, 260)];
   (L.pipes || []).forEach(p => {
     special.push(rect(p.x, p.y, 120, 200));
     if (p.toX != null) special.push(rect(p.toX, p.toY, 120, 200));
@@ -364,65 +366,73 @@ export function addBlocksAndPlatforms(scene, L, idx) {
   // 3a) Plataformas que caem, com um prémio por cima (arriscas ou não)
   const nCrumble = (idx >= 2 && difficulty !== "extremo") ? (idx >= 9 ? 2 : 1) : 0;
   let crumbles = 0;
-  for (const cx of cands) {
-    if (crumbles >= nCrumble) break;
-    if (!farFar(cx, 150)) continue;
-    // Apoia-se no chão ou numa plataforma existente (sobe-se por baixo, ~125 px)
-    const an = anchors.find(a => a.t >= 330 && a.t <= 520 && a.r - a.l >= 160 && cx - 80 >= a.l && cx + 80 <= a.r
-      && !hits(cx - 85, cx + 85, a.t - 195, a.t - 2, a, a.t - 2) && !hitsSpecial(cx - 85, cx + 85, a.t - 195, a.t));
-    if (!an) continue;
-    const T = an.t - 125;
-    const pl = platforms.create(cx, T + 11, "crumble");
-    pl.setDepth(2); pl.setData("crumble", true);
-    if (pl.body) { pl.body.checkCollision.left = false; pl.body.checkCollision.right = false; }
-    const it = itemsGroup.create(cx, T - 48, keyFor());
-    it.setDepth(5); it.setData("kind", it.texture.key.replace("item_", "")); it.setData("bonus", true);
-    scene.tweens.add({ targets: it, y: it.y - 6, duration: 900, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
-    obst.push(rect(cx, T - 20, 200, 160)); centers.push(cx); crumbles++;
+  for (const pass of [0, 1]) {
+    const sep = pass ? 70 : 150, minW = pass ? 130 : 160, half = pass ? 65 : 80, marg = pass ? 70 : 85;
+    for (const cx of cands) {
+      if (crumbles >= nCrumble) break;
+      if (!farFar(cx, sep)) continue;
+      // Apoia-se no chão ou numa plataforma existente (sobe-se por baixo, ~125 px)
+      const an = anchors.find(a => a.t >= 330 && a.t <= 520 && a.r - a.l >= minW && cx - half >= a.l && cx + half <= a.r
+        && !hits(cx - marg, cx + marg, a.t - 195, a.t - 2, a, a.t - 2) && !hitsSpecial(cx - marg, cx + marg, a.t - 195, a.t));
+      if (!an) continue;
+      const T = an.t - 125;
+      const pl = platforms.create(cx, T + 11, "crumble");
+      pl.setDepth(2); pl.setData("crumble", true);
+      if (pl.body) { pl.body.checkCollision.left = false; pl.body.checkCollision.right = false; }
+      const it = itemsGroup.create(cx, T - 48, keyFor());
+      it.setDepth(5); it.setData("kind", it.texture.key.replace("item_", "")); it.setData("bonus", true);
+      scene.tweens.add({ targets: it, y: it.y - 6, duration: 900, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      obst.push(rect(cx, T - 20, 200, 160)); centers.push(cx); crumbles++;
+    }
   }
 
   // 3b) Firewalls: feixes que ligam e desligam (com aviso a piscar antes de ligar)
   const nBeams = idx >= 3 ? (idx >= 10 ? 2 : 1) + (idx >= 16 ? 1 : 0) : 0;
   let nb = 0;
-  for (const cx of cands) {
-    if (nb >= nBeams) break;
-    if (!farFar(cx, 130)) continue;
-    const g = groundAt(cx, 60);
-    if (!g) continue;
-    const top = g.t;
-    if (hits(cx - 55, cx + 55, top - 106, top - 2, g, top - 2) || hitsSpecial(cx - 60, cx + 60, top - 106, top)) continue;
-    const base = platforms.create(cx, top - 9, "fw_post"); base.setDepth(3);
-    base.body.checkCollision.none = true;
-    const beam = platforms.create(cx, top - 18 - 40, "fw_beam"); beam.setDepth(3); beam.setDisplaySize(26, 80);
-    beam.body.checkCollision.none = true; beam.setData("firewall", true);
-    beams.push(beam);
-    obst.push(rect(cx, top - 60, 140, 130)); centers.push(cx); nb++;
+  for (const pass of [0, 1]) {
+    const sep = pass ? 70 : 130, half = pass ? 40 : 60, marg = pass ? 40 : 55;
+    for (const cx of cands) {
+      if (nb >= nBeams) break;
+      if (!farFar(cx, sep)) continue;
+      const g = groundAt(cx, half);
+      if (!g) continue;
+      const top = g.t;
+      if (hits(cx - marg, cx + marg, top - 106, top - 2, g, top - 2) || hitsSpecial(cx - marg - 5, cx + marg + 5, top - 106, top)) continue;
+      const base = platforms.create(cx, top - 9, "fw_post"); base.setDepth(3);
+      base.body.checkCollision.none = true;
+      const beam = platforms.create(cx, top - 18 - 40, "fw_beam"); beam.setDepth(3); beam.setDisplaySize(26, 80);
+      beam.body.checkCollision.none = true; beam.setData("firewall", true);
+      beams.push(beam);
+      obst.push(rect(cx, top - 60, 140, 130)); centers.push(cx); nb++;
+    }
   }
 
-  // 3c) Vento: zona que empurra o VanBerto's para um lado (níveis alternados)
-  const nWind = (idx >= 6 && idx % 2 === 0) ? 1 : 0;
+  // 3c) Vento: zona que empurra o VanBerto's para um lado (de 2 em 2 níveis, mais nos finais)
+  const nWind = idx >= 5 ? ((idx % 2 === 1 ? 1 : 0) + (idx >= 14 ? 1 : 0)) : 0;
   let nw = 0;
-  for (const cx of cands) {
-    if (nw >= nWind) break;
-    if (!farFar(cx, 120)) continue;
-    const g = groundAt(cx, 125);
-    if (!g) continue;
-    const top = g.t;
-    if (hitsSpecial(cx - 125, cx + 125, 300, top)) continue;
-    const dir = rnd() < 0.5 ? -1 : 1;
-    const marker = platforms.create(cx, top - 120, "fw_post"); marker.setAlpha(0); marker.body.checkCollision.none = true;
-    const zone = { l: cx - 125, r: cx + 125, t: top - 240, b: top, dir, marker, emitter: null };
-    const tex = scene.textures.exists("spark_item") ? "spark_item" : null;
-    if (tex) {
-      zone.emitter = scene.add.particles(0, 0, tex, {
-        x: { min: dir > 0 ? zone.l : zone.r - 30, max: dir > 0 ? zone.l + 30 : zone.r },
-        y: { min: zone.t + 20, max: zone.b - 20 },
-        speedX: dir * 260, speedY: 0, lifespan: 1300, frequency: 90, quantity: 1,
-        scale: { start: 0.9, end: 0.2 }, alpha: { start: 0.65, end: 0 }, tint: [0xdff4ff, 0x9fe3ff, 0xffffff]
-      }).setDepth(4);
+  for (const pass of [0, 1]) {
+    const sep = pass ? 60 : 120, half = pass ? 50 : 125;
+    for (const cx of cands) {
+      if (nw >= nWind) break;
+      if (!farFar(cx, sep)) continue;
+      const g = groundAt(cx, half);
+      if (!g) continue;
+      const top = g.t;
+      if (hitsSpecial(cx - 125, cx + 125, 300, top)) continue;
+      const dir = rnd() < 0.5 ? -1 : 1;
+      const marker = platforms.create(cx, top - 120, "fw_post"); marker.setAlpha(0); marker.body.checkCollision.none = true;
+      const zone = { l: cx - 125, r: cx + 125, t: top - 240, b: top, dir, marker, emitter: null };
+      if (scene.textures.exists("spark_item")) {
+        zone.emitter = scene.add.particles(0, 0, "spark_item", {
+          x: { min: dir > 0 ? zone.l : zone.r - 30, max: dir > 0 ? zone.l + 30 : zone.r },
+          y: { min: zone.t + 20, max: zone.b - 20 },
+          speedX: dir * 300, speedY: 0, lifespan: 1200, frequency: 70, quantity: 1,
+          scale: { start: 0.9, end: 0.2 }, alpha: { start: 0.7, end: 0 }, tint: [0xdff4ff, 0x9fe3ff, 0xffffff]
+        }).setDepth(4);
+      }
+      winds.push(zone);
+      obst.push(rect(cx, top - 120, 260, 250)); centers.push(cx); nw++;
     }
-    winds.push(zone);
-    obst.push(rect(cx, top - 120, 260, 250)); centers.push(cx); nw++;
   }
 
   if (beams.length || winds.length) {

@@ -3201,3 +3201,18 @@ html, body {
 @media (prefers-reduced-motion: reduce) { .start-robot { animation: none; } }
 
 #quizOverlay .q { padding-left: 34px; }
+
+/* ===== Fundo creme com pontinhos pêssego (igual ao modelo enviado) ===== */
+html, body {
+  background-color: #fff6e3;
+  background-image: radial-gradient(circle at center, #ffd9ad 2px, transparent 2.6px);
+  background-size: 33px 33px;
+  background-position: 20px 16px;
+}
+.overlay {
+  animation: none;
+  background-color: #fff6e3;
+  background-image: radial-gradient(circle at center, #ffd9ad 2px, transparent 2.6px);
+  background-size: 33px 33px;
+  background-position: 20px 16px;
+}
