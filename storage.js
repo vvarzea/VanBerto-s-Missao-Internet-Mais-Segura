@@ -11,7 +11,7 @@
 // (v1), esse progresso é lido uma única vez e copiado para a chave nova antes
 // de ser apagado — ninguém perde progresso por causa desta reorganização.
 
-const ROOT_KEY = "vanbertos_ciberseguranca_save_v1";
+const ROOT_KEY = "vanbertos_internet_segura_save_v1";
 
 let root = null;
 
@@ -85,7 +85,7 @@ const OLD_HC_KEY = "vanbertos_hc";                    // "1" / "0"
 
 (function migrateFromOldKeys() {
   try {
-    if (localStorage.getItem(ROOT_KEY)) return; // já está na v2
+    return; // Internet Segura: não migra chaves antigas (evita mexer nos dados da Missão Cibersegurança)
     const migrated = {};
     let foundAnything = false;
 

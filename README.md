@@ -5,6 +5,8 @@ estrelas, conquistas, certificado, PWA offline) com a identidade do jogo «VanBe
 
 ## Novidades desta versão
 
+- **Chaves 🔑 (como as moedas do Super Mário):** cada chave vale +10 pontos e soma ao contador «🔑 n/100» no ecrã. **Ao chegar às 100 chaves ganhas +1 vida** (se já tiveres o máximo, ganhas +500 pontos) e o contador volta a zero. As chaves estão em arcos no chão, em filas por cima das plataformas e dentro dos blocos «?». O contador fica guardado entre níveis e sessões, e cada chave só conta uma vez por nível (não dá para repetir um nível para ganhar vidas). «Recomeçar» e «Limpar tudo» zeram o contador.
+
 - **Obstáculos novos** (`game/blocks.js`), colocados automaticamente em sítios livres:
   - **Plataformas que caem** (pedra gretada): abanam ao pisá-las, caem ao fim de ~0,7 s e voltam passados ~3 s. Têm um prémio por cima (escudo, duplo salto ou vida). Não existem no Extremo.
   - **Firewalls** (feixe vermelho-rosa entre dois postes): ligam e desligam, piscam antes de ligar e tiram uma vida se tocares com o feixe ligado. Com Star Power atravessas. Nível 4 em diante.
@@ -13,7 +15,7 @@ estrelas, conquistas, certificado, PWA offline) com a identidade do jogo «VanBe
 - **Estética nova (tema claro):** fundo creme com pontinhos, cartões brancos com contorno marinho grosso e sombra dura, botões amarelos para a ação principal, letra Nunito. Modal inicial com a mascote VanBerto's e «Olá! Como te chamas?». Os fundos dos mundos mantêm as cores originais das imagens.
 
 - **Blocos para dar cabeçadas (tipo Super Mário)** — `game/blocks.js`:
-  - **Bloco «?»** (dourado): salta por baixo e bate com a cabeça. Dá 💎 (cristal) +10 pontos ou, às vezes, um item (🛡️ escudo,
+  - **Bloco «?»** (dourado): salta por baixo e bate com a cabeça. Dá 🔑 (uma chave, +10 pontos) ou, às vezes, um item (🛡️ escudo,
     🦅 duplo salto, ❤️ vida). Fica cinzento depois de usado.
   - **Tijolo**: dá só um abanão; com o **escudo 🛡️** (ou Star Power) o VanBerto's **parte-o** (+5 pontos).
   - Dá também para saltar para cima dos blocos e usá-los como degraus.

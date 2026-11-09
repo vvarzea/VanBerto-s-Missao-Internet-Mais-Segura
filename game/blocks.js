@@ -12,15 +12,59 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, player, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is12";
-import { showFloat } from "./feedback.js?v=20261108is12";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is12";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is12";
-import { THEMES } from "../data-levels.js?v=20261108is12";
-import { onHitMalware } from "./items.js?v=20261108is12";
+import { platforms, itemsGroup, player, powered, starPower, lives, set_lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is14";
+import { showFloat } from "./feedback.js?v=20261108is14";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is14";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is14";
+import { THEMES } from "../data-levels.js?v=20261108is14";
+import { onHitMalware } from "./items.js?v=20261108is14";
+import { updateHearts } from "./level.js?v=20261108is14";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is14";
 
 const BLOCK = 40;
 let windVx = 0;
+const KEY_GOAL = 100;                 // 100 chaves = +1 vida (como as 100 moedas do Super Mário)
+let keyData = null;                   // { count, taken: { nivel: [ids] } }  (guardado)
+let keyText = null;
+let curIdx = 0;
+const keyList = [];
+function loadKeys() { if (!keyData) { keyData = loadNamespace("keys", { count: 0, taken: {} }); keyData.taken = keyData.taken || {}; keyData.count = keyData.count || 0; } return keyData; }
+function saveKeys() { try { saveNamespace("keys", keyData); } catch (e) {} }
+function takenSet() { const k = loadKeys(); return (k.taken[curIdx] = k.taken[curIdx] || []); }
+/** Chamado quando se recomeça o jogo / se apaga o progresso. */
+export function resetKeys() { keyData = { count: 0, taken: {} }; saveKeys(); updateKeyHud(); }
+function ensureKeyHud(scene) {
+  loadKeys();
+  if (!keyText || !keyText.scene || !keyText.active) {
+    keyText = scene.add.text(150, 32, "", { fontSize: "14px", fontStyle: "900", color: "#1e1b4b", stroke: "#ffffff", strokeThickness: 1,
+      backgroundColor: "rgba(255,248,229,0.90)", padding: { x: 7, y: 2 } }).setScrollFactor(0).setDepth(100);
+  }
+  updateKeyHud();
+}
+function updateKeyHud() {
+  if (!keyText || !keyText.active) return;
+  keyText.setText(`🔑 ${loadKeys().count}/${KEY_GOAL}`);
+  if (scoreText && scoreText.active) keyText.setPosition(scoreText.x + scoreText.displayWidth + 10, scoreText.y);
+}
+/** Soma n chaves (+10 pontos cada). Às 100 chaves: +1 vida (ou pontos extra se já tiveres o máximo). */
+function addKeys(scene, n, x, y) {
+  const k = loadKeys();
+  k.count += n;
+  addPoints(10 * n);
+  ensureAudio(); SFX.coin();
+  if (k.count >= KEY_GOAL) {
+    k.count -= KEY_GOAL;
+    const px = player ? player.x : x, py = player ? player.y : y;
+    if (lives < getMaxLives()) {
+      set_lives(lives + 1); updateHearts(); SFX.life();
+      showFloat(scene, px, py - 100, "🔑 100 chaves! +1 vida ❤️", "#1e1b4b");
+    } else {
+      addPoints(500);
+      showFloat(scene, px, py - 100, "🔑 100 chaves! +500 pontos", "#1e1b4b");
+    }
+  }
+  saveKeys(); updateKeyHud();
+}
 let obstacleTimer = null;
 const beams = [];
 const winds = [];
@@ -71,6 +115,19 @@ function tickObstacles(scene) {
       if (pb.right > bx && pb.left < bx + bw && pb.bottom > by && pb.top < by + bh) onHitMalware(player, b);
     }
   }
+  updateKeyHud();
+  if (!scene.physics.world.isPaused) {
+    for (let i = keyList.length - 1; i >= 0; i--) {
+      const kk = keyList[i];
+      if (!kk.active || !kk.visible) continue;
+      if (pb.right > kk.x - 14 && pb.left < kk.x + 14 && pb.bottom > kk.y - 15 && pb.top < kk.y + 15) {
+        const id = kk.getData("kid"); const t = takenSet(); if (id && !t.includes(id)) t.push(id);
+        keyList.splice(i, 1);
+        scene.tweens.add({ targets: kk, y: kk.y - 24, alpha: 0, scale: 1.4, duration: 220, onComplete: () => kk.destroy() });
+        addKeys(scene, 1, kk.x, kk.y);
+      }
+    }
+  }
   let wx = 0;
   for (const w of winds) {
     if (!w.marker.active || !w.marker.visible) { if (w.emitter) w.emitter.stop(); continue; }
@@ -83,6 +140,7 @@ function tickObstacles(scene) {
 function clearObstacles(scene) {
   if (obstacleTimer) { obstacleTimer.remove(false); obstacleTimer = null; }
   beams.length = 0;
+  keyList.length = 0;
   winds.forEach(w => { if (w.emitter) w.emitter.destroy(); });
   winds.length = 0;
   windVx = 0;
@@ -127,6 +185,20 @@ function makeObstacleTextures(scene) {
       c.beginPath(); c.moveTo(x1, y1); c.lineTo((x1 + x2) / 2 + 5, 11); c.lineTo(x2, y2); c.stroke();
     });
   });
+}
+
+function makeKeyTexture(scene) {
+  if (scene.textures.exists("key_item")) return;
+  const t = scene.textures.createCanvas("key_item", 34, 34);
+  const c = t.getContext();
+  c.lineWidth = 3; c.strokeStyle = "#1e1b4b"; c.fillStyle = "#ffd21f";
+  c.beginPath(); c.arc(11, 11, 8, 0, 7); c.fill(); c.stroke();               // argola
+  c.fillStyle = "#fff6e3"; c.beginPath(); c.arc(11, 11, 3, 0, 7); c.fill();  // furo
+  c.fillStyle = "#ffd21f"; c.fillRect(16, 9, 15, 5); c.strokeRect(16, 9, 15, 5);  // haste
+  c.fillRect(23, 14, 4, 7); c.strokeRect(23, 14, 4, 7);                       // dentes
+  c.fillRect(28, 14, 3, 5); c.strokeRect(28, 14, 3, 5);
+  c.fillStyle = "rgba(255,255,255,0.7)"; c.fillRect(6, 5, 5, 3);
+  t.refresh();
 }
 
 function makeBlockTextures(scene) {
@@ -203,6 +275,7 @@ function hitBlock(scene, b) {
     if (b.getData("used")) return;
     b.setData("used", true);
     b.setTexture("blk_used");
+    const bid = b.getData("bid"); if (bid) { const t = takenSet(); if (!t.includes(bid)) { t.push(bid); saveKeys(); } }
     releaseContent(scene, b);
   } else if (type === "brick") {
     if (powered || starPower) {
@@ -224,11 +297,10 @@ function releaseContent(scene, b) {
   let kind = b.getData("content") || "moeda";
   if (kind === "heart" && lives >= getMaxLives()) kind = "moeda";
   if (kind === "moeda") {
-    addPoints(10);
-    ensureAudio(); SFX.coin();
-    const coin = scene.add.text(b.x, b.y - 26, "💎", { fontSize: "26px" }).setOrigin(0.5).setDepth(6);
+    const coin = scene.add.text(b.x, b.y - 26, "🔑", { fontSize: "26px" }).setOrigin(0.5).setDepth(6);
     scene.tweens.add({ targets: coin, y: coin.y - 52, alpha: 0, duration: 520, ease: "Quad.easeOut", onComplete: () => coin.destroy() });
-    showFloat(scene, b.x, b.y - 60, "+10 💎", "#ffd700");
+    showFloat(scene, b.x, b.y - 60, "+1 🔑", "#1e1b4b");
+    addKeys(scene, 1, b.x, b.y);
     return;
   }
   const keyMap = { medalha: "item_medalha", duplosalto: "item_duplosalto", heart: "item_heart", estrela: "item_estrela" };
@@ -261,6 +333,9 @@ function breakBrick(scene, b) {
 // ===== Geração =====
 export function addBlocksAndPlatforms(scene, L, idx) {
   clearObstacles(scene);
+  curIdx = idx;
+  makeKeyTexture(scene);
+  ensureKeyHud(scene);
   makeObstacleTextures(scene);
   makeBlockTextures(scene);
   brickHintShown = false;
@@ -309,8 +384,12 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     return r < 0.55 ? "moeda" : (r < 0.72 ? "medalha" : (r < 0.88 ? "duplosalto" : "heart"));
   };
 
+  let bi = 0;
   const addBlock = (x, y, type) => {
-    const s = platforms.create(x, y, type === "q" ? "blk_q" : "blk_brick");
+    const bid = "b" + (bi++);
+    const wasUsed = type === "q" && takenSet().includes(bid);
+    const s = platforms.create(x, y, type === "q" ? (wasUsed ? "blk_used" : "blk_q") : "blk_brick");
+    s.setData("bid", bid); if (wasUsed) s.setData("used", true);
     s.setDepth(3);
     s.setData("isBlock", true);
     s.setData("type", type);
@@ -435,7 +514,48 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     }
   }
 
-  if (beams.length || winds.length) {
+  // 4) Chaves 🔑 espalhadas, como as moedas do Super Mário (arcos no chão e filas por cima das plataformas)
+  const doneKeys = takenSet();
+  let kn = 0;
+  const putKey = (x, y) => {
+    const id = "k" + (kn++);
+    if (doneKeys.includes(id)) return;
+    const k = platforms.create(x, y, "key_item");
+    k.setDepth(4); k.setData("kid", id); k.body.checkCollision.none = true;
+    scene.tweens.add({ targets: k, y: y - 5, duration: 700 + (kn % 4) * 90, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    keyList.push(k);
+  };
+  const nArcs = difficulty === "extremo" ? 1 : 2;
+  const ARC = [[-72, 0], [-36, 22], [0, 34], [36, 22], [72, 0]];
+  let arcs = 0;
+  for (const pass of [0, 1, 2]) {
+    for (const cx of cands) {
+      if (arcs >= nArcs) break;
+      if (!farFar(cx, pass === 0 ? 170 : 100)) continue;
+      // passes 0-1: sobre o chão; pass 2: sobre qualquer plataforma larga
+      const g = pass < 2 ? groundAt(cx, 80) : anchors.find(a => a.t >= 300 && a.t <= 520 && cx - 80 >= a.l && cx + 80 <= a.r);
+      if (!g) continue;
+      const top = g.t;
+      if (pass === 0 && hits(cx - 90, cx + 90, top - 110, top - 2, g, top - 2)) continue;
+      if (hitsSpecial(cx - 80, cx + 80, top - 110, top)) continue;
+      ARC.forEach(([dx, h]) => putKey(cx + dx, top - 44 - h));
+      obst.push(rect(cx, top - 60, 180, 80)); centers.push(cx); arcs++;
+    }
+  }
+  const nRowK = difficulty === "extremo" ? 1 : 3;
+  const anchorsShuffled = anchors.filter(a => a.t >= 300 && a.t <= 520 && a.r - a.l >= 100)
+    .map(a => [rnd(), a]).sort((u, v) => u[0] - v[0]).map(u => u[1]);
+  let krows = 0;
+  for (const a of anchorsShuffled) {
+    if (krows >= nRowK) break;
+    const cx = (a.l + a.r) / 2;
+    if (hitsSpecial(cx - 50, cx + 50, a.t - 95, a.t)) continue;
+    if (hits(cx - 60, cx + 60, a.t - 95, a.t - 2, a, a.t - 2)) continue;
+    [-36, 0, 36].forEach(dx => putKey(cx + dx, a.t - 42));
+    obst.push(rect(cx, a.t - 45, 130, 60)); krows++;
+  }
+
+  if (beams.length || winds.length || keyList.length) {
     obstacleTimer = scene.time.addEvent({ delay: 40, loop: true, callback: () => tickObstacles(scene) });
   }
 
