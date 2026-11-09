@@ -3216,3 +3216,6 @@ html, body {
   background-size: 33px 33px;
   background-position: 20px 16px;
 }
+
+/* Mapa da Aventura: o cartão ocupa o ecrã todo — fica transparente para se ver o fundo de pontinhos */
+#mapOverlay .map-card { background: transparent; border: none; box-shadow: none; border-radius: 0; }

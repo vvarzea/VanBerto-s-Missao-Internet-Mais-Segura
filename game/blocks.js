@@ -12,12 +12,12 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, player, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is11";
-import { showFloat } from "./feedback.js?v=20261108is11";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is11";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is11";
-import { THEMES } from "../data-levels.js?v=20261108is11";
-import { onHitMalware } from "./items.js?v=20261108is11";
+import { platforms, itemsGroup, player, powered, starPower, lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is12";
+import { showFloat } from "./feedback.js?v=20261108is12";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is12";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is12";
+import { THEMES } from "../data-levels.js?v=20261108is12";
+import { onHitMalware } from "./items.js?v=20261108is12";
 
 const BLOCK = 40;
 let windVx = 0;
