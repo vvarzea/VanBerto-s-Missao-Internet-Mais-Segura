@@ -1,3 +1,4 @@
+import { buildBossArt } from "./game/boss-art.js?v=20261108is19";
 // ===== Geração de texturas Phaser/canvas — VanBerto's =====
 // Extraído de dia-crianca.js. Ficheiro 100% autocontido: cada função só
 // depende do parâmetro `scene` (instância Phaser) e de constantes locais.
@@ -24,6 +25,7 @@ export function makeTextures(scene){
   makeDoorTexture(scene);
   makeVilaosTextures(scene);
   makeBossTextures(scene);
+  buildBossArt(scene); // imagens dos bosses (ver game/boss-art.js)
   makeSparkTexture(scene);
   makeItemTextures(scene);
   makeVanBertoTexture(scene,"vanberto_open",false,-1);

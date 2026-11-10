@@ -12,14 +12,14 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, player, powered, starPower, lives, set_lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is14";
-import { showFloat } from "./feedback.js?v=20261108is14";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is14";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is14";
-import { THEMES } from "../data-levels.js?v=20261108is14";
-import { onHitMalware } from "./items.js?v=20261108is14";
-import { updateHearts } from "./level.js?v=20261108is14";
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is14";
+import { platforms, itemsGroup, player, powered, starPower, lives, set_lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is19";
+import { showFloat } from "./feedback.js?v=20261108is19";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is19";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is19";
+import { THEMES } from "../data-levels.js?v=20261108is19";
+import { onHitMalware } from "./items.js?v=20261108is19";
+import { updateHearts } from "./level.js?v=20261108is19";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is19";
 
 const BLOCK = 40;
 let windVx = 0;

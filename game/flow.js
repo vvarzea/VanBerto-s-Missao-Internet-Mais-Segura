@@ -7,24 +7,24 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { collectedArtefacts, showArtefactGallery } from "./artefacts.js?v=20261108is14";
-import { startBossFight } from "./boss-core.js?v=20261108is14";
-import { bonusStars, btnCloseQuiz, quizOverlay } from "./dom.js?v=20261108is14";
-import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261108is14";
-import { loadLevel } from "./level.js?v=20261108is14";
-import { celebrateWorldComplete, enterLevelWithStory, isLastLevelOfRegion, regionForLevel, renderMap, renderWorldMap } from "./map.js?v=20261108is14";
-import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261108is14";
-import { quizStats, showHistory, wireReviewButton } from "./quiz.js?v=20261108is14";
-import { openAchievementsScreen } from "./screens.js?v=20261108is14";
-import { _doorWatchdogTimer, _landingCheckTimer, _reviewReturnOverlay, currentLevel, door, livesLostThisLevel, pausedByTeacher, player, playerName, powerHaloGfx, sceneRef, score, scoreText, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__reviewReturnOverlay, set__winOverlaySubOpen, set_awaitingQuiz, set_awaitingStory, set_livesLostThisLevel, set_score, shadowGfx, touch } from "./state.js?v=20261108is14";
-import { adventureScore, globalStats, medalTextWin, medalTier } from "./stats.js?v=20261108is14";
-import { btnWinRestart } from "./ui.js?v=20261108is14";
-import { starsForLevel, totalStarsEarned, levelStars } from "../stars.js?v=20261108is14";
-import { LEVELS } from "../data-levels.js?v=20261108is14";
-import { BOSS_BY_LEVEL } from "../data-bosses.js?v=20261108is14";
-import { ensureAudio, SFX } from "../audio.js?v=20261108is14";
-import { hideDoorGlow } from "../background.js?v=20261108is14";
-import { ARTEFACTS } from "../data-progression.js?v=20261108is14";
+import { collectedArtefacts, showArtefactGallery } from "./artefacts.js?v=20261108is19";
+import { startBossFight } from "./boss-core.js?v=20261108is19";
+import { bonusStars, btnCloseQuiz, quizOverlay } from "./dom.js?v=20261108is19";
+import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261108is19";
+import { loadLevel } from "./level.js?v=20261108is19";
+import { celebrateWorldComplete, enterLevelWithStory, isLastLevelOfRegion, regionForLevel, renderMap, renderWorldMap } from "./map.js?v=20261108is19";
+import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261108is19";
+import { quizStats, showHistory, wireReviewButton } from "./quiz.js?v=20261108is19";
+import { openAchievementsScreen } from "./screens.js?v=20261108is19";
+import { _doorWatchdogTimer, _landingCheckTimer, _reviewReturnOverlay, currentLevel, door, livesLostThisLevel, pausedByTeacher, player, playerName, powerHaloGfx, sceneRef, score, scoreText, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__reviewReturnOverlay, set__winOverlaySubOpen, set_awaitingQuiz, set_awaitingStory, set_livesLostThisLevel, set_score, shadowGfx, touch } from "./state.js?v=20261108is19";
+import { adventureScore, globalStats, medalTextWin, medalTier } from "./stats.js?v=20261108is19";
+import { btnWinRestart } from "./ui.js?v=20261108is19";
+import { starsForLevel, totalStarsEarned, levelStars } from "../stars.js?v=20261108is19";
+import { LEVELS } from "../data-levels.js?v=20261108is19";
+import { BOSS_BY_LEVEL } from "../data-bosses.js?v=20261108is19";
+import { ensureAudio, SFX } from "../audio.js?v=20261108is19";
+import { hideDoorGlow } from "../background.js?v=20261108is19";
+import { ARTEFACTS } from "../data-progression.js?v=20261108is19";
 
 // BUG CORRIGIDO: nextLevel() não tinha nenhuma proteção contra ser chamada
 // duas vezes seguidas para a MESMA conclusão de nível (ex.: o botão
@@ -219,7 +219,7 @@ export function showVictoryScreen(scene){
     const pct = _allStars ? 100 : Math.min(_pctFromStars, _pctFromGlobalStats);
     const _tier=medalTier(pct);
     const medal=medalTextWin(_tier);
-    const master=(_tier==="perfect")?" 🌟 Defensor Perfeito da Cibersegurança!":"";
+    const master=(_tier==="perfect")?" 🌟 Defensor Perfeito da Internet Segura!":"";
     document.getElementById("winPlayerName").textContent=playerName||"Ciber-Herói";
     document.getElementById("winScore").textContent=adventureScore();
     // Só mostra a fração se a percentagem for a dela; se as estrelas mandarem (valor mais baixo), mostra só a percentagem — nunca «17/27 (50%)».
@@ -237,7 +237,28 @@ export function showVictoryScreen(scene){
       copias_seguranca:"Cópias de Segurança",acessibilidade_digital:"Acessibilidade Digital",
       spam_compras:"Spam e Compras",denuncia_conteudo:"Denunciar e Pedir Ajuda",
       identidade_digital:"Identidade Digital",privacidade:"Privacidade",
-      contacto_desconhecidos:"Cuidado com Desconhecidos",direitos_digitais:"Direitos Digitais"
+      contacto_desconhecidos:"Cuidado com Desconhecidos",direitos_digitais:"Direitos Digitais",
+      cd1:"O Portal da Identidade",
+      cd2:"A Fortaleza dos Direitos",
+      cd3:"A Floresta da Empatia",
+      cd4:"O Jardim da Inclusão",
+      cd5:"O Farol das Escolhas",
+      cd6:"O Desfiladeiro das Pressões",
+      cd7:"A Caverna das Relações Online",
+      cd8:"O Pântano do Ciberbullying",
+      cd9:"A Ponte da Manipulação",
+      cd10:"A Fortaleza do Apoio",
+      cd11:"A Praça das Comunidades",
+      cd12:"O Bairro da Partilha Responsável",
+      cd13:"A Avenida da Pegada Digital",
+      cd14:"A Torre da Colaboração",
+      cd15:"O Centro do Bem-Estar Digital",
+      cd16:"O Planeta dos Algoritmos",
+      cd17:"O Laboratório da Inteligência Artificial",
+      cd18:"O Mundo dos Conteúdos Sintéticos",
+      cd19:"A Estação da Informação Fiável",
+      cd20:"O Núcleo do Futuro Digital",
+      boss_1:"Guardião da Internet",boss_2:"O Sombra das Redes",boss_3:"O Manipulador Digital",boss_4:"A Inteligência Artificial"
     };
     const winThemeErrors=document.getElementById("winThemeErrors");
     const winThemeTable=document.getElementById("winThemeTable");

@@ -24,26 +24,26 @@ export const PAUSE_TIPS = [
 // Frase curta mostrada ao entrar em cada nível — alinhada por posição no
 // array LEVELS (0-19), NÃO por artIdx.
 export const LEVEL_ENTRY_PHRASES = [
-  "A internet liga o mundo! 🌐",
-  "Uma boa palavra-passe protege-te! 🔐",
-  "Os teus dados são só teus! 🪪",
-  "Nunca estás sozinho online! 🆘",
-  "Cuidado com os vírus! 🦠",
-  "Joga sempre com regras! 🎮",
-  "Pensa antes de publicar! 👣",
-  "Nem tudo o que lês é verdade! 📰",
-  "Cuidado com o phishing! 🎣",
-  "Mantém tudo atualizado! 💻",
-  "A família ajuda a decidir! 👨‍👩‍👧",
-  "Wi-Fi público? Atenção redobrada! 📶",
-  "Guarda sempre uma cópia! 💾",
-  "A tecnologia é para todos! ♿",
-  "Desconfia de ofertas boas demais! 🛒",
-  "Denunciar é um direito! 📢",
-  "A tua identidade também é digital! 🧑‍💻",
-  "A tua privacidade é sagrada! 🔒",
-  "Cuidado com desconhecidos! 🚫",
-  "Os teus direitos existem online! ⚖️"
+  "Sê tu, com respeito! 🪪",
+  "Tens direitos online! ⚖️",
+  "Pensa no outro! 💚",
+  "A Internet é para todos! 🌈",
+  "Escolhe com cabeça! 🧭",
+  "Diz não à pressão! 🧗",
+  "Quem é quem online? 🤝",
+  "Pára o ciberbullying! 🛑",
+  "Não te deixes enganar! 🎭",
+  "Pede ajuda sempre! 🆘",
+  "Joga em equipa! 🏘️",
+  "Partilha com cuidado! 📤",
+  "Cuida da tua pegada! 👣",
+  "Juntos somos mais! 🧩",
+  "Faz pausas do ecrã! 🧘",
+  "Os algoritmos escolhem? 🪐",
+  "Usa a IA com cabeça! 🤖",
+  "Será mesmo real? 🧪",
+  "Verifica a fonte! 📡",
+  "O futuro é teu! 🚀"
 ];
 
 export const DYNAMIC_MSGS_CORRECT = [
@@ -118,6 +118,6 @@ export const VB_STAR_POWER = [
 export const VB_PERFECT_LEVEL = [
   "PERFEITO! Nenhuma vida perdida! Lendário! 🏆",
   "Uau! Passaste o nível sem um arranhão! ⭐",
-  "Impecável! Guardião da Cibersegurança nível máximo! 🌟",
+  "Impecável! Guardião da Internet Segura nível máximo! 🌟",
   "Incrível! Isso merecia um bónus extra! 🎉"
 ];

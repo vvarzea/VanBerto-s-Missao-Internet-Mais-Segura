@@ -7,23 +7,23 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { vbSay } from "./dialogue.js?v=20261108is14";
-import { startOverlay } from "./dom.js?v=20261108is14";
-import { playLevelTransition } from "./door.js?v=20261108is14";
-import { loadLevel } from "./level.js?v=20261108is14";
-import { openOverlay, saveGame } from "./overlays.js?v=20261108is14";
-import { showHistory } from "./quiz.js?v=20261108is14";
-import { initPhaser } from "./scene.js?v=20261108is14";
-import { currentLevel, getStartLives, mapProgress, pausedByTeacher, playerName, playerNameHUD, powerHaloGfx, sceneRef, score, set__historySubOpen, set__overlayPaused, set__winOverlaySubOpen, set_currentLevel, set_lives, shadowGfx } from "./state.js?v=20261108is14";
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is14";
-import { MAP_REGIONS } from "../data-progression.js?v=20261108is14";
-import { applyBackground as applyBackgroundRaw } from "../background.js?v=20261108is14";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261108is14";
-import { ensureAudio, SFX } from "../audio.js?v=20261108is14";
-import { playTitleCard } from "../cinematics.js?v=20261108is14";
-import { starsForLevel } from "../stars.js?v=20261108is14";
-import { REGION_INTRO } from "../data-story.js?v=20261108is14";
-import { VB_LEVEL_INTRO } from "../data-flavor.js?v=20261108is14";
+import { vbSay } from "./dialogue.js?v=20261108is19";
+import { startOverlay } from "./dom.js?v=20261108is19";
+import { playLevelTransition } from "./door.js?v=20261108is19";
+import { loadLevel } from "./level.js?v=20261108is19";
+import { openOverlay, saveGame } from "./overlays.js?v=20261108is19";
+import { showHistory } from "./quiz.js?v=20261108is19";
+import { initPhaser } from "./scene.js?v=20261108is19";
+import { currentLevel, getStartLives, mapProgress, pausedByTeacher, playerName, playerNameHUD, powerHaloGfx, sceneRef, score, set__historySubOpen, set__overlayPaused, set__winOverlaySubOpen, set_currentLevel, set_lives, shadowGfx } from "./state.js?v=20261108is19";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is19";
+import { MAP_REGIONS } from "../data-progression.js?v=20261108is19";
+import { applyBackground as applyBackgroundRaw } from "../background.js?v=20261108is19";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261108is19";
+import { ensureAudio, SFX } from "../audio.js?v=20261108is19";
+import { playTitleCard } from "../cinematics.js?v=20261108is19";
+import { starsForLevel } from "../stars.js?v=20261108is19";
+import { REGION_INTRO } from "../data-story.js?v=20261108is19";
+import { VB_LEVEL_INTRO } from "../data-flavor.js?v=20261108is19";
 
 
 // ===== Dicas =====
@@ -79,9 +79,9 @@ const LEVEL_BG_OVERRIDE = {
   4: "bg_mundo1_n5",   // Nível 5
   5: "bg_mundo2_n6",   // Nível 6
   6: "bg_mundo2_n7",   // Nível 7
-  7: "bg_mundo2_n8",   // Nível 8
+  7: "bg_mundo2_n8",
   8: "bg_mundo2_n9",   // Nível 9
-  9: "bg_mundo3_n10e11", // Nível 10
+  9: "bg_mundo2_n9",   // Nível 10 (agora fecha o Mundo 2)
   10: "bg_mundo3_n10e11", // Nível 11
   11: "bg_mundo3_n12e13", // Nível 12
   12: "bg_mundo3_n12e13", // Nível 13
