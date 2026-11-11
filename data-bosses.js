@@ -35,6 +35,7 @@ export const BOSSES = [
     // divertido. stompBoss=true liga este modo dedicado no motor do jogo;
     // os outros 3 bosses (ainda sem stompBoss) continuam exatamente iguais.
     stompBoss: true,
+    shield: { type: "cloak",    up: 2000, down: 2800, msg: "🌑 Está invisível! Espera que apareça" },
     stompsToDefeat: 3,       // 3 saltos na cabeça = derrotado (reaproveita def.hp)
     // Melhorias "mais género Mario" (pedido), sem nenhum perigo novo no
     // chão — ver spawnBossSprite/damageBoss/doBossRollQmark em
@@ -189,7 +190,7 @@ export const BOSSES = [
     // 3 vezes. Mantém o seu próprio movimento em onda (flutua, pulsa) e a
     // bola ❓ (aqui retintada a rosa) como única diferença de personalidade.
     stompBoss: true,
-    shieldCycle: true,       // NOVO: escudo que sobe e desce — só se salta quando está em baixo
+    shield: { type: "bubble", up: 2300, down: 2700, msg: "🛡️ Escudo! Espera que baixe" },   // proteção do Guardião
     stompsToDefeat: 3,
     // Melhorias "mais género Mario" (ver comentário completo no Monstro
     // da Ignorância, acima) — mesmo pacote, sem perigo novo no chão.
@@ -360,6 +361,7 @@ export const BOSSES = [
     // dia-crianca.js) como a sua marca própria, mais difícil de apanhar
     // no ar do que um boss que só anda.
     stompBoss: true,
+    shield: { type: "firewall", up: 2200, down: 2600, msg: "🧠 Firewall ativo! Espera que caia" },
     stompsToDefeat: 3,
     // Melhorias "mais género Mario" — este boss usa entranceMaterialize em
     // vez de entranceGrow (ver spawnBossSprite em dia-crianca.js): em vez
@@ -484,6 +486,7 @@ export const BOSSES = [
     // industrial) mas larga as plataformas móveis e a arena poluída, para
     // caber num único ecrã sem scroll, tal como os outros 3 bosses.
     stompBoss: true,
+    shield: { type: "notif",    up: 2000, down: 2800, msg: "🔔 Escudo de notificações! Espera" },
     stompsToDefeat: 3,
     // Melhorias "mais género Mario" (ver comentário completo no Monstro
     // da Ignorância) — mesmo pacote, sem perigo novo no chão.

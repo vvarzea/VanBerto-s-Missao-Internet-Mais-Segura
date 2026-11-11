@@ -23,9 +23,9 @@ export const REGION_INTRO = {
 // "{N}" é substituído pelo número real de saltos necessários no momento em que o texto é mostrado.
 export const BOSS_OBJECTIVE = {
   virus_gigante: "O Guardião protege-se com um escudo 🛡️! Desvia-te dos globos 🌐 e salta-lhe em cima {N} vezes quando o escudo estiver em baixo!",
-  monstro_phishing: "Desvia-te das sombras 🌑 que ele lança e salta-lhe em cima {N} vezes para o desmascarar!",
-  robo_spam: "O Manipulador atira notificações 🔔 enganadoras e anda depressa! Apanha o ritmo e salta-lhe em cima {N} vezes para o vencer!",
-  espiao_sombras: "A IA atira pacotes de dados 💾 que te perseguem! Salta-lhe em cima {N} vezes para a vencer!"
+  monstro_phishing: "O Sombra torna-se invisível 🌑 de vez em quando! Desvia-te das sombras que ele lança e salta-lhe em cima {N} vezes quando ele aparecer!",
+  robo_spam: "O Manipulador protege-se com um escudo de notificações 🔔! Salta-lhe em cima {N} vezes quando o escudo desaparecer e desvia-te das notificações!",
+  espiao_sombras: "A IA ativa um firewall 🧠 de vez em quando! Desvia-te dos pacotes de dados 💾 e salta-lhe em cima {N} vezes quando o firewall cair!"
 };
 
 // Diálogo de boss. "reaction" = fala do VanBerto's ANTES do boss se apresentar;

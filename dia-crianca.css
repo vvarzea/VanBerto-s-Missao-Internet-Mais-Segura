@@ -3219,3 +3219,14 @@ html, body {
 
 /* Mapa da Aventura: o cartão ocupa o ecrã todo — fica transparente para se ver o fundo de pontinhos */
 #mapOverlay .map-card { background: transparent; border: none; box-shadow: none; border-radius: 0; }
+
+
+/* ===== Acertos de aspeto ===== */
+/* Mapa: contorno dos nós mais fino */
+.level-node { border-width: 2px; }
+.level-node--current { box-shadow: 0 0 0 3px rgba(255,210,31,0.55), 0 0 16px rgba(255,210,31,0.65), 0 3px 8px rgba(30,27,75,0.25); }
+.level-node:focus, .level-node:focus-visible { box-shadow: 0 0 0 3px rgba(30,27,75,0.35), 0 0 12px rgba(30,27,75,0.18); }
+/* Estrelas ganhas: amarelas (com contorno marinho fino) */
+.lc-star.lc-star--on { color: #ffc400 !important; -webkit-text-stroke: 2px #1e1b4b; paint-order: stroke fill; }
+.level-node-star--on { color: #ffc400 !important; text-shadow: 0 0 2px #1e1b4b; }
+#bonusStars { color: #ffd21f !important; -webkit-text-stroke: 2px #1e1b4b; paint-order: stroke fill; text-shadow: none; }

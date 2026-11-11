@@ -12,14 +12,14 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, player, powered, starPower, lives, set_lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is19";
-import { showFloat } from "./feedback.js?v=20261108is19";
-import { makePlatformTextureThemed } from "../textures.js?v=20261108is19";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is19";
-import { THEMES } from "../data-levels.js?v=20261108is19";
-import { onHitMalware } from "./items.js?v=20261108is19";
-import { updateHearts } from "./level.js?v=20261108is19";
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is19";
+import { platforms, itemsGroup, player, powered, starPower, lives, set_lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261108is20";
+import { showFloat } from "./feedback.js?v=20261108is20";
+import { makePlatformTextureThemed } from "../textures.js?v=20261108is20";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261108is20";
+import { THEMES } from "../data-levels.js?v=20261108is20";
+import { onHitMalware } from "./items.js?v=20261108is20";
+import { updateHearts } from "./level.js?v=20261108is20";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261108is20";
 
 const BLOCK = 40;
 let windVx = 0;
@@ -36,8 +36,7 @@ export function resetKeys() { keyData = { count: 0, taken: {} }; saveKeys(); upd
 function ensureKeyHud(scene) {
   loadKeys();
   if (!keyText || !keyText.scene || !keyText.active) {
-    keyText = scene.add.text(150, 32, "", { fontSize: "14px", fontStyle: "900", color: "#1e1b4b", stroke: "#ffffff", strokeThickness: 1,
-      backgroundColor: "rgba(255,248,229,0.90)", padding: { x: 7, y: 2 } }).setScrollFactor(0).setDepth(100);
+    keyText = scene.add.text(150, 32, "", { fontFamily: "Nunito, system-ui, sans-serif", fontSize: "14px", fontStyle: "900", color: "#ffe14d", stroke: "#1e1b4b", strokeThickness: 5 }).setScrollFactor(0).setDepth(100);
   }
   updateKeyHud();
 }

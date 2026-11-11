@@ -7,21 +7,21 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { clearMiniViruses, clearPopupHazard, clearToxicZones, currentContaminationZones, currentPopupConfig, doBossTeleport, showBossLaugh, spawnToxicZones, startPhishingDecoy, stopPhishingDecoy, triggerBossBlackout, updateToxicZones } from "./boss-attacks.js?v=20261108is19";
-import { destroyBossHpBar, drawBossHpBar, enterBossPhase, startBossFinalStandBurst } from "./boss-core.js?v=20261108is19";
-import { startBossQuizPhase } from "./boss-end.js?v=20261108is19";
-import { vbSayRandom } from "./dialogue.js?v=20261108is19";
-import { hitFlash } from "./dom.js?v=20261108is19";
-import { applyHitStop, showFloat } from "./feedback.js?v=20261108is19";
-import { showGameOver } from "./flow.js?v=20261108is19";
-import { setInvuln } from "./items.js?v=20261108is19";
-import { clearExtremoAllies, spawnExtremoReinforcement, updateHearts } from "./level.js?v=20261108is19";
-import { snapPlayerToGround } from "./rooms.js?v=20261108is19";
-import { awaitingQuiz, bossExtremoAllies, bossLockIcon, bossMiniViruses, bossOverlay, bossRageIcon, bossState, bossTimers, difficulty, heartsGfx, inBossFight, invuln, itemCountText, itemsGroup, lives, livesLostThisLevel, player, sceneRef, score, scoreText, set__hudDirty, set_awaitingQuiz, set_bossExtremoAllies, set_bossLockIcon, set_bossMiniViruses, set_bossOverlay, set_bossPopupAnchors, set_bossRageIcon, set_bossTimers, set_controlsInvertedUntil, set_invuln, set_lives, set_livesLostThisLevel, set_score, starPower, tipText } from "./state.js?v=20261108is19";
-import { triggerVanBertoSad } from "./vanberto.js?v=20261108is19";
-import { ensureAudio, beep, SFX } from "../audio.js?v=20261108is19";
-import { BOSS_HP_TAUNTS } from "../data-story.js?v=20261108is19";
-import { VB_STAR_POWER } from "../data-flavor.js?v=20261108is19";
+import { clearMiniViruses, clearPopupHazard, clearToxicZones, currentContaminationZones, currentPopupConfig, doBossTeleport, showBossLaugh, spawnToxicZones, startPhishingDecoy, stopPhishingDecoy, triggerBossBlackout, updateToxicZones } from "./boss-attacks.js?v=20261108is20";
+import { destroyBossHpBar, drawBossHpBar, enterBossPhase, startBossFinalStandBurst } from "./boss-core.js?v=20261108is20";
+import { startBossQuizPhase } from "./boss-end.js?v=20261108is20";
+import { vbSayRandom } from "./dialogue.js?v=20261108is20";
+import { hitFlash } from "./dom.js?v=20261108is20";
+import { applyHitStop, showFloat } from "./feedback.js?v=20261108is20";
+import { showGameOver } from "./flow.js?v=20261108is20";
+import { setInvuln } from "./items.js?v=20261108is20";
+import { clearExtremoAllies, spawnExtremoReinforcement, updateHearts } from "./level.js?v=20261108is20";
+import { snapPlayerToGround } from "./rooms.js?v=20261108is20";
+import { awaitingQuiz, bossExtremoAllies, bossLockIcon, bossMiniViruses, bossOverlay, bossRageIcon, bossState, bossTimers, difficulty, heartsGfx, inBossFight, invuln, itemCountText, itemsGroup, lives, livesLostThisLevel, player, sceneRef, score, scoreText, set__hudDirty, set_awaitingQuiz, set_bossExtremoAllies, set_bossLockIcon, set_bossMiniViruses, set_bossOverlay, set_bossPopupAnchors, set_bossRageIcon, set_bossTimers, set_controlsInvertedUntil, set_invuln, set_lives, set_livesLostThisLevel, set_score, starPower, tipText } from "./state.js?v=20261108is20";
+import { triggerVanBertoSad } from "./vanberto.js?v=20261108is20";
+import { ensureAudio, beep, SFX } from "../audio.js?v=20261108is20";
+import { BOSS_HP_TAUNTS } from "../data-story.js?v=20261108is20";
+import { VB_STAR_POWER } from "../data-flavor.js?v=20261108is20";
 
 // Reação exagerada tipo desenho animado sempre que QUALQUER boss é atingido:
 // achata-se por meio segundo (textura "_ouch" + squash) e volta ao normal,
@@ -103,11 +103,11 @@ function handleStompBossTouch(b) {
   // de física.
   const STOMP_TOLERANCE = 30;
   // Guardião da Internet: com o escudo levantado o salto ressalta e não conta
-  if (bossState.def.shieldCycle && bossState.shieldUp && isFalling && playerBottom <= bossTop + STOMP_TOLERANCE + 20) {
+  if (bossState.def.shield && bossState.shieldUp && isFalling && playerBottom <= bossTop + STOMP_TOLERANCE + 20) {
     bossState.hitCooldownUntil = sceneRef.time.now + 400;
     player.setVelocityY(-360);
     ensureAudio(); beep({freq:260,dur:0.08,type:"triangle",vol:0.07,slideTo:200});
-    showFloat(sceneRef, b.x, b.y-100, "🛡️ Escudo! Espera que baixe", "#1e1b4b");
+    showFloat(sceneRef, b.x, b.y-100, bossState.def.shield.msg, "#1e1b4b");
     return true;
   }
   if (isFalling && playerBottom <= bossTop + STOMP_TOLERANCE) {
@@ -158,7 +158,7 @@ function handleStompBossTouch(b) {
 
 function startBossStompDefeat() {
   if (!bossState) return;
-  bossState.shieldUp = false; if (bossState.shieldGfx) { bossState.shieldGfx.destroy(); bossState.shieldGfx = null; }
+  bossState.shieldUp = false; if (bossState.shieldGfx) { bossState.shieldGfx.destroy(); bossState.shieldGfx = null; } if (bossState.sprite && bossState.sprite.active) bossState.sprite.setAlpha(1);
   bossState.phase = "defeat";
   const b = bossState.sprite;
   const def = bossState.def;
@@ -268,19 +268,38 @@ function triggerBossParty(scene) {
 }
 
 function updateBossShield(scene, b) {
-  const def = bossState.def;
-  if (!def.shieldCycle) return;
-  if (bossState.shieldT0 == null) bossState.shieldT0 = scene.time.now + 1200;     // 1,2 s sem escudo ao começar
-  const UP = 2300, DOWN = 2700, t = scene.time.now - bossState.shieldT0;
+  const sh = bossState.def.shield;
+  if (!sh) return;
+  if (bossState.shieldT0 == null) bossState.shieldT0 = scene.time.now + 1200;     // 1,2 s sem proteção ao começar
+  const t = scene.time.now - bossState.shieldT0;
   let up = false, warn = false;
-  if (t >= 0) { const c = t % (UP + DOWN); up = c < UP; warn = up && c > UP - 450; }
+  if (t >= 0) { const c = t % (sh.up + sh.down); up = c < sh.up; warn = up && c > sh.up - 450; }
   bossState.shieldUp = up;
+  const now = scene.time.now, blink = warn ? (Math.floor(now / 80) % 2 ? 0.35 : 1) : 1;
   if (!bossState.shieldGfx || !bossState.shieldGfx.active) {
-    bossState.shieldGfx = scene.add.circle(b.x, b.y, 98, 0x4aa8ff, 0.30).setStrokeStyle(5, 0xcfe9ff, 0.95).setDepth((b.depth || 1) + 1);
+    const depth = (b.depth || 1) + 1;
+    let g;
+    if (sh.type === "notif") {                                   // anel de notificações a rodar
+      g = scene.add.container(b.x, b.y).setDepth(depth);
+      for (let i = 0; i < 6; i++) g.add(scene.add.image(0, 0, "boss_proj_notif").setScale(1.25));
+    } else if (sh.type === "firewall") {                         // estrela/engrenagem de firewall
+      g = scene.add.star(b.x, b.y, 8, 82, 100, 0x39d6ff, 0.18).setStrokeStyle(4, 0x67e8f9, 0.95).setDepth(depth);
+    } else if (sh.type === "cloak") {                            // aura de sombra
+      g = scene.add.circle(b.x, b.y, 92, 0x120a22, 0.38).setStrokeStyle(3, 0xe0453a, 0.7).setDepth(depth);
+    } else {                                                     // bolha azul (Guardião)
+      g = scene.add.circle(b.x, b.y, 98, 0x4aa8ff, 0.30).setStrokeStyle(5, 0xcfe9ff, 0.95).setDepth(depth);
+    }
+    bossState.shieldGfx = g;
   }
   const g = bossState.shieldGfx;
   g.setPosition(b.x, b.y - 4).setVisible(up);
-  if (up) g.setAlpha(warn ? (Math.floor(scene.time.now / 80) % 2 ? 0.35 : 1) : 1);
+  if (sh.type === "notif") {
+    g.list.forEach((im, i) => { const a = now / 650 + i * Math.PI / 3; im.setPosition(Math.cos(a) * 96, Math.sin(a) * 74).setRotation(Math.sin(a) * 0.4); });
+  } else if (sh.type === "firewall") {
+    g.setRotation(now / 900);
+  }
+  if (up) g.setAlpha(blink);
+  if (sh.type === "cloak") b.setAlpha(up ? (warn ? (blink < 1 ? 0.7 : 0.4) : 0.28) : 1);   // invisível enquanto protegido
 }
 
 export function updateBossFight(scene) {

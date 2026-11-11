@@ -7,8 +7,8 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { player, touch } from "./state.js?v=20261108is19";
-import { ensureAudio } from "../audio.js?v=20261108is19";
+import { player, touch } from "./state.js?v=20261108is20";
+import { ensureAudio } from "../audio.js?v=20261108is20";
 
 // ===== Touch =====
 
